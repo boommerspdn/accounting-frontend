@@ -14,3 +14,9 @@ export type SocialMedias = {
     url: string;
   };
 }[];
+
+export type Services = {
+  name: string;
+  description: string;
+  slug: string;
+}[];

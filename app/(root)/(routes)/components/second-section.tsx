@@ -13,19 +13,24 @@ const SecondSection = ({
 }: SecondSectionProps) => {
   return (
     <div className="bg-custom-blue">
-      <div className="container grid grid-cols-2 py-16 gap-x-12">
-        <div className="relative h-[400px] w-full">
-          <Image
-            src={`${process.env.NEXT_PUBLIC_API_URL}${image_url}`}
-            alt="test"
-            fill
-            quality={100}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
+      <div className="container grid grid-cols-1 md:grid-cols-2 py-10 md:py-16 gap-x-12">
+        <div className="flex justify-center">
+          <div className="relative w-full sm:w-3/4 md:w-full aspect-[3/2]">
+            <Image
+              className="object-cover rounded"
+              src={`${process.env.NEXT_PUBLIC_API_URL}${image_url}`}
+              alt="test"
+              fill
+              quality={100}
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+          </div>
         </div>
         <div className="pt-8 space-y-4">
-          <h1 className="text-custom-yellow text-5xl">{title}</h1>
-          <p className="text-white text-2xl">{description}</p>
+          <h1 className="text-custom-yellow text-3xl md:text-4xl xl:text-5xl">
+            {title}
+          </h1>
+          <p className="text-white text-xl xl:text-2xl">{description}</p>
         </div>
       </div>
     </div>

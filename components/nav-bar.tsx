@@ -6,6 +6,8 @@ import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import { NavLinks } from "@/lib/definitions";
+import SideBar from "./side-bar";
+import { Menu } from "lucide-react";
 
 interface NavBarProps {
   navItems: NavLinks;
@@ -13,6 +15,7 @@ interface NavBarProps {
 
 const NavBar = ({ navItems }: NavBarProps) => {
   const [color, setColor] = useState("");
+  const [open, setOpen] = useState(false);
 
   const pathname = usePathname();
   const animation = "transition-colors ease-in-out duration-500";
@@ -20,12 +23,7 @@ const NavBar = ({ navItems }: NavBarProps) => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      const newColor =
-        scrollY > 0 && pathname !== "/"
-          ? "bg-white"
-          : scrollY > 0 && pathname === "/"
-          ? "bg-white border-border !text-black"
-          : "bg-transparent"; // Change the color based on the scroll position
+      const newColor = scrollY > 0 ? "bg-white text-black border-border" : "";
       setColor(newColor);
     };
     handleScroll();
@@ -38,28 +36,32 @@ const NavBar = ({ navItems }: NavBarProps) => {
   return (
     <nav
       className={cn(
-        `h-16 fixed flex items-center justify-between w-full px-8 border-transparent border-b-[1px] z-[999]`,
-        pathname !== "/" ? "border-border" : "text-white",
-        color,
-        pathname === "/" ? animation : ""
+        `h-16 fixed flex items-center justify-between w-full px-8 border-transparent border-b-[1px] z-50 ${
+          pathname === "/"
+            ? `bg-transparent text-white ${animation}`
+            : "bg-white text-black border-border"
+        }`,
+        color
       )}
     >
-      <div className="flex items-center justify-center">
+      <div className="flex gap-2 items-center justify-center">
+        <SideBar
+          open={open}
+          setOpen={setOpen}
+          website_name={navItems?.website_name}
+          home={navItems?.home}
+          service={navItems?.service}
+          contact_us={navItems?.contact_us}
+          about_us={navItems?.about_us}
+        />
+        <Menu onClick={() => setOpen(true)} className="md:hidden" />
         <span className="font-bold">{navItems?.website_name}</span>
       </div>
-      <div className="flex items-center gap-8">
-        <Link href={"/"} className={cn(``)}>
-          {navItems?.home}
-        </Link>
-        <Link href={"/services/1"} className={cn(``)}>
-          {navItems?.service}
-        </Link>
-        <Link href={"/contact-us"} className={cn(``)}>
-          {navItems?.contact_us}
-        </Link>
-        <Link href={"/about-us"} className={cn(``)}>
-          {navItems?.about_us}
-        </Link>
+      <div className="hidden md:flex items-center gap-8">
+        <Link href={"/"}>{navItems?.home}</Link>
+        <Link href={"/services/1"}>{navItems?.service}</Link>
+        <Link href={"/contact-us"}>{navItems?.contact_us}</Link>
+        <Link href={"/about-us"}>{navItems?.about_us}</Link>
       </div>
     </nav>
   );

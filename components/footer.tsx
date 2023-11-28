@@ -11,8 +11,8 @@ const Footer = async () => {
   return (
     <div className="bg-[#E9E9E9] border-border border-t-[1px]">
       <div className="container flex flex-col justify-between h-full pb-4">
-        <div className="flex gap-20 mt-14 mb-10">
-          <div className="space-y-2 max-w-md">
+        <div className="flex flex-col md:flex-row gap-10 md:gap-5 xl:gap-20 mt-14 mb-10">
+          <div className="space-y-2 md:max-w-xs lg:max-w-md">
             <h1 className="text-xl">{footer.company_info}</h1>
             <div className="flex gap-2">
               <Image src={"/email.svg"} alt="" width={25} height={25} />
@@ -62,7 +62,7 @@ const Footer = async () => {
             ))}
           </div>
         </div>
-        <p className="text-center">{footer.copyright}</p>
+        <p className="text-center text-sm sm:text-base">{footer.copyright}</p>
       </div>
     </div>
   );

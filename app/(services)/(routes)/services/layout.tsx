@@ -11,7 +11,7 @@ export default async function ContactUsLayout({
   return (
     <>
       <NavBar navItems={navItems} />
-      <div className="pt-16">{children}</div>;
+      <div className="py-16">{children}</div>;
     </>
   );
 }

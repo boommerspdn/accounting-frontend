@@ -6,7 +6,7 @@ const Service = () => {
   return (
     <div className="min-w-[300px] space-y-2">
       <h1 className="text-2xl text-custom-blue">service title</h1>
-      <p className="text-xl h-[200px] multiline-ellipsis">
+      <p className="md:text-xl h-[10.75rem] md:h-[200px] multiline-ellipsis">
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur
         debitis maiores saepe iusto consectetur facere voluptatibus delectus
         dolores repellat provident doloribus, sunt velit ut totam eligendi

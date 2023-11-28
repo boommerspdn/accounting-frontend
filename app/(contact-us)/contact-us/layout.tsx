@@ -3,5 +3,5 @@ export default async function ContactUsLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div className="pt-16 mb-16">{children}</div>;
+  return <div className="py-16">{children}</div>;
 }

@@ -21,3 +21,25 @@ export async function pageFetcher(page: string) {
     throw new Error("Failed to fetch page data.");
   }
 }
+
+export async function serviceFetcher(page: string, params: string) {
+  try {
+    const query = qs.stringify({
+      populate: "*",
+    });
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/${page}?${query}&filters[slug][$eq]=${params}`,
+      {
+        cache: "no-store",
+      }
+    );
+    const data = await response.json();
+    const pageData = flattenAttributes(data.data);
+
+    return pageData;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch page data.");
+  }
+}

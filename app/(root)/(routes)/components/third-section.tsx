@@ -14,8 +14,8 @@ const ThirdSection = ({
   path,
 }: ThirdSectionProps) => {
   return (
-    <div className="container text-center space-y-12 my-36">
-      <h1 className="text-6xl">{title}</h1>
+    <div className="container text-center space-y-12 my-24 md:my-36">
+      <h1 className="text-5xl md:text-6xl">{title}</h1>
       <p className="text-xl font-medium">{description}</p>
       <Link href={"/"}>
         <button className="py-3 px-20 mt-12 rounded-2xl bg-[#FFC940] font-bold text-lg cursor-pointer">

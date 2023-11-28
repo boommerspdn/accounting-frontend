@@ -11,9 +11,13 @@ const HeroBanner = ({ url, title, description, button }: HeroBannerProps) => {
   return (
     <div className="relative w-full h-[700px] flex justify-center items-center">
       <div className="container flex flex-col justify-center items-center gap-y-12">
-        <div className="text-white text-6xl text-center z-50">{title}</div>
-        <div className="text-white text-xl text-center z-50">{description}</div>
-        <button className="py-3 px-10 rounded-2xl bg-[#FFC940] font-bold text-lg cursor-pointer z-50">
+        <div className="text-white text-4xl md:text-5xl lg:text-6xl text-center z-30">
+          {title}
+        </div>
+        <div className="text-white text-lg lg:text-xl text-center z-30">
+          {description}
+        </div>
+        <button className="py-3 px-10 rounded-2xl bg-[#FFC940] font-bold md:text-lg cursor-pointer z-30">
           {button}
         </button>
       </div>

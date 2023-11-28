@@ -32,7 +32,6 @@ const FormSchema = z.object({
 
 const ContactForm = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccessful, setisSuccessful] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -49,18 +48,15 @@ const ContactForm = () => {
     setIsSubmitting(true);
     console.log(data);
     setTimeout(() => {
+      form.reset();
       setIsSubmitting(false);
-    }, 2000);
-    setisSuccessful(true);
-    setTimeout(() => {
-      setisSuccessful(false);
     }, 2000);
   };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-2 gap-y-4 gap-x-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-2">
           <FormField
             control={form.control}
             name="name"
@@ -130,7 +126,7 @@ const ContactForm = () => {
             control={form.control}
             name="message"
             render={({ field }) => (
-              <FormItem className="col-span-2">
+              <FormItem className="sm:col-span-2">
                 <FormLabel>ข้อความ</FormLabel>
                 <FormControl>
                   <Textarea
@@ -150,15 +146,7 @@ const ContactForm = () => {
             className="bg-custom-blue py-2 px-20 rounded-full text-white"
             disabled={isSubmitting}
           >
-            {!isSubmitting && !isSuccessful ? (
-              "ส่งข้อความ"
-            ) : isSubmitting && !isSuccessful ? (
-              <Loader2 className="animate-spin" />
-            ) : isSuccessful ? (
-              <CheckCircle />
-            ) : (
-              ""
-            )}
+            {isSubmitting ? <Loader2 className="animate-spin" /> : "ส่งข้อความ"}
           </button>
         </div>
       </form>

@@ -16,8 +16,8 @@ const ContactUs = async () => {
   return (
     <>
       <Header title={contactUsData.header} />
-      <div className="container grid grid-cols-5 gap-8">
-        <div className="col-span-3 space-y-2">
+      <div className="container grid grid-cols-1 lg:grid-cols-5 gap-8">
+        <div className="lg:col-span-3 space-y-2 text-center lg:text-start">
           <h1 className="text-4xl pb-4">{contactUsData.sub_header}</h1>
           <div className="space-y-1">
             <h2 className="text-2xl text-custom-blue">
@@ -44,7 +44,7 @@ const ContactUs = async () => {
             <p>{contactUsData.company_email_body}</p>
           </div>
         </div>
-        <div className="col-span-2">
+        <div className="lg:col-span-2">
           <Card>
             <CardHeader>
               <CardTitle>{contactUsData.message_title}</CardTitle>
@@ -57,7 +57,7 @@ const ContactUs = async () => {
             </CardContent>
           </Card>
         </div>
-        <div className="col-span-5">
+        <div className="lg:col-span-5">
           <iframe
             src={contactUsData.google_map_embed_src}
             width="100%"
