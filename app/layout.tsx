@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Anuphan } from "next/font/google";
 import "./globals.css";
 import { pageFetcher } from "@/lib/data";
+import { Services } from "@/lib/definitions";
 
 import NavBar from "@/components/nav-bar";
 import Footer from "@/components/footer";
@@ -19,11 +20,12 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const navItems = await pageFetcher("navigation-bar");
+  const services: Services = await pageFetcher("services");
 
   return (
     <html lang="en">
       <body className={anuphan.className}>
-        <NavBar navItems={navItems} />
+        <NavBar navItems={navItems} services={services} />
         {children}
         <Footer />
       </body>

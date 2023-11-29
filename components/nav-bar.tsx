@@ -5,15 +5,17 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 import { cn } from "@/lib/utils";
-import { NavLinks } from "@/lib/definitions";
+import { NavLinks, Services } from "@/lib/definitions";
 import SideBar from "./side-bar";
 import { Menu } from "lucide-react";
+import ServiceNav from "./service-nav";
 
 interface NavBarProps {
   navItems: NavLinks;
+  services: Services;
 }
 
-const NavBar = ({ navItems }: NavBarProps) => {
+const NavBar = ({ navItems, services }: NavBarProps) => {
   const [color, setColor] = useState("");
   const [open, setOpen] = useState(false);
 
@@ -59,7 +61,8 @@ const NavBar = ({ navItems }: NavBarProps) => {
       </div>
       <div className="hidden md:flex items-center gap-8">
         <Link href={"/"}>{navItems?.home}</Link>
-        <Link href={"/services/1"}>{navItems?.service}</Link>
+        <ServiceNav services={services} />
+        {/* <Link href={"/services/1"}>{navItems?.service}</Link> */}
         <Link href={"/contact-us"}>{navItems?.contact_us}</Link>
         <Link href={"/about-us"}>{navItems?.about_us}</Link>
       </div>

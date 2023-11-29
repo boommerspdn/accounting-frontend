@@ -101,3 +101,7 @@ input[type="number"] {
   -webkit-box-shadow: 23px 13px 42px 2px rgba(97, 97, 97, 0.47);
   -moz-box-shadow: 23px 13px 42px 2px rgba(97, 97, 97, 0.47);
 }
+
+.li-m-0 > li {
+  margin: 0;
+}

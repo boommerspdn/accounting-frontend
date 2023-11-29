@@ -17,20 +17,26 @@ const AboutUs = async () => {
         <div className="lg:hidden col-span-1 relative h-[22rem]">
           <Image
             src={`${process.env.NEXT_PUBLIC_API_URL}${aboutUsData.header_image.url}`}
-            alt="hello"
+            alt="About Fast on Time"
             fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="rounded-3xl object-cover"
+            priority={true}
           />
         </div>
         <div className="hidden lg:block relative h-[22rem]">
           <div className="absolute w-[90%] aspect-[3/2] bg-custom-blue -top-20 ms-[10%] rounded-3xl" />
           <div className="absolute -top-28 ms-[2.25rem] w-[90%] aspect-[3/2]">
-            <Image
-              src={`${process.env.NEXT_PUBLIC_API_URL}${aboutUsData.header_image.url}`}
-              alt="hello"
-              fill
-              className="rounded-3xl custom-shadow object-cover"
-            />
+            <div className="relative w-full h-full">
+              <Image
+                src={`${process.env.NEXT_PUBLIC_API_URL}${aboutUsData.header_image.url}`}
+                alt="About Fast on Time"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="rounded-3xl custom-shadow object-cover"
+                priority={true}
+              />
+            </div>
           </div>
         </div>
         <div className="lg:col-span-2 -top-12 space-y-8">

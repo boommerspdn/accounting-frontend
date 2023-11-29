@@ -1,6 +1,5 @@
 import RichText from "@/components/rich-text";
 import { cn } from "@/lib/utils";
-import React from "react";
 
 interface PackageListProps {
   package_type: {
@@ -22,7 +21,7 @@ const PackagesList = ({ package_type }: PackageListProps) => {
   );
 
   return (
-    <div className="flex justify-center flex-wrap gap-16">
+    <div className="flex justify-center flex-wrap gap-8 2xl:gap-16">
       {packageList.map((item) => (
         <div
           key={item.id}

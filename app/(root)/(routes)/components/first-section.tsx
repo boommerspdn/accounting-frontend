@@ -1,15 +1,11 @@
+import { Services } from "@/lib/definitions";
 import Service from "./service";
 
 interface FirstSection {
   title: string;
   description: string;
-  services: service;
+  services: Services;
 }
-
-type service = {
-  title: string;
-  description: string;
-}[];
 
 const FirstSection = ({ title, description, services }: FirstSection) => {
   return (
@@ -17,8 +13,12 @@ const FirstSection = ({ title, description, services }: FirstSection) => {
       <h1 className="text-3xl md:text-5xl">{title}</h1>
       <p className="text-xl">{description}</p>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-        {[0, 1, 3, 4].map((service) => (
-          <Service key={service} />
+        {services.map((service) => (
+          <Service
+            key={service.name}
+            title={service.name}
+            body={service.description}
+          />
         ))}
       </div>
     </section>

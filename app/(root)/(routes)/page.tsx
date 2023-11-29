@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { pageFetcher } from "@/lib/data";
+import { Services } from "@/lib/definitions";
 import HeroBanner from "./components/hero-banner";
 import HeroSection from "./components/hero-section";
 import FirstSection from "./components/first-section";
@@ -8,6 +9,7 @@ import ThirdSection from "./components/third-section";
 
 export default async function Home() {
   const homeData = await pageFetcher("home-page");
+  const services: Services = await pageFetcher("services");
 
   return (
     <div className="flex flex-col">
@@ -34,7 +36,7 @@ export default async function Home() {
       <FirstSection
         title={homeData.section_1_title}
         description={homeData.section_1_description}
-        services={[{ title: "asd", description: "tes" }]}
+        services={services}
       />
       <SecondSection
         title={homeData.section_2_title}

@@ -2,18 +2,17 @@ import Link from "next/link";
 
 import { ChevronRight } from "lucide-react";
 
-const Service = () => {
+interface ServiceProps {
+  title: string;
+  body: string;
+}
+
+const Service = ({ title, body }: ServiceProps) => {
   return (
     <div className="min-w-[300px] space-y-2">
-      <h1 className="text-2xl text-custom-blue">service title</h1>
+      <h1 className="text-2xl text-custom-blue">{title}</h1>
       <p className="md:text-xl h-[10.75rem] md:h-[200px] multiline-ellipsis">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tenetur
-        debitis maiores saepe iusto consectetur facere voluptatibus delectus
-        dolores repellat provident doloribus, sunt velit ut totam eligendi
-        reiciendis qui dolorum fugit? Lorem, ipsum dolor sit amet consectetur
-        adipisicing elit. Veniam sunt eos nulla! Esse quas quis dolores aliquam?
-        Eos nihil, odit natus quaerat vitae facere beatae eligendi similique
-        minima, quod voluptatibus.
+        {body}
       </p>
       <Link
         href={"/"}
