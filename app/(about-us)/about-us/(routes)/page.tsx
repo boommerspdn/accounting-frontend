@@ -12,7 +12,7 @@ const AboutUs = async () => {
       <Header title={aboutUsData.header} />
       <div className="container grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-4">
         <div className="col-span-1 h-fit">
-          <p className="text-xl">{aboutUsData.description}</p>
+          <RichText data={aboutUsData.body} className="text-xl space-y-4" />
         </div>
         <div className="lg:hidden col-span-1 relative h-[22rem]">
           <Image

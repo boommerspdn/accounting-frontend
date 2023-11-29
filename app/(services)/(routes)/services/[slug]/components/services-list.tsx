@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { pageFetcher } from "@/lib/data";
+import { pageFetcher, serviceListFetcher } from "@/lib/data";
 import { Services } from "@/lib/definitions";
 import { cn } from "@/lib/utils";
 
@@ -8,7 +8,7 @@ interface ServiceListProps {
 }
 
 const ServicesList = async ({ slug }: ServiceListProps) => {
-  const services: Services = await pageFetcher("services");
+  const services: Services = await serviceListFetcher("services");
   return (
     <>
       {services.map((service, index) => (

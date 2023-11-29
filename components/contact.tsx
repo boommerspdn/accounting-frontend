@@ -14,7 +14,7 @@ interface ContactProps {
 const Contact = ({ package_type }: ContactProps) => {
   return (
     <div className="flex flex-col items-center gap-8 text-center">
-      <h1 className="text-5xl">{package_type[0].title}</h1>
+      <h1 className="text-3xl md:text-5xl">{package_type[0].title}</h1>
       <p className="text-xl">{package_type[0].description}</p>
       <a
         href={`${package_type[0].button_path}`}

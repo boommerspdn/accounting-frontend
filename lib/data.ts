@@ -40,6 +40,23 @@ export async function serviceFetcher(page: string, params: string) {
     return pageData;
   } catch (error) {
     console.error("Database Error:", error);
-    throw new Error("Failed to fetch page data.");
+    throw new Error("Failed to fetch service data.");
+  }
+}
+
+export async function serviceListFetcher(page: string) {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/${page}`,
+      {
+        cache: "no-store",
+      }
+    );
+    const data = await response.json();
+    const pageData = flattenAttributes(data.data);
+    return pageData;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch service list data.");
   }
 }

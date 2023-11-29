@@ -18,6 +18,7 @@ const FirstSection = ({ title, description, services }: FirstSection) => {
             key={service.name}
             title={service.name}
             body={service.description}
+            path={service.slug}
           />
         ))}
       </div>

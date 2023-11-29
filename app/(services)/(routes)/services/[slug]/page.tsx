@@ -6,9 +6,14 @@ import { serviceFetcher } from "@/lib/data";
 
 import PackagesList from "./components/packages-list";
 import ServicesList from "./components/services-list";
+import ServiceNotFound from "./components/service-not-found";
 
 const ServicePage = async ({ params }: { params: { slug: string } }) => {
   const serviceData = await serviceFetcher("services", params.slug);
+
+  if (serviceData.length === 0 || serviceData === null) {
+    return <ServiceNotFound />;
+  }
 
   return (
     <>
@@ -19,7 +24,9 @@ const ServicePage = async ({ params }: { params: { slug: string } }) => {
         </div>
 
         <div className="grid grid-cols-5 gap-y-8 gap-x-16 w-full">
-          <h1 className="text-5xl col-span-5">{serviceData[0].title}</h1>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl col-span-5">
+            {serviceData[0].title}
+          </h1>
           <div className="col-span-5 space-y-6">
             <RichText
               className="flex flex-col gap-2 text-xl tracking-wide"
@@ -27,7 +34,7 @@ const ServicePage = async ({ params }: { params: { slug: string } }) => {
             />
           </div>
           {serviceData[0].package_type.length !== 0 && (
-            <div className="col-span-5 space-y-6 py-16">
+            <div className="col-span-5 space-y-6 py-8 md:py-16">
               {serviceData[0].package_type[0].__component ===
                 "content.contact" && (
                 <Contact package_type={serviceData[0].package_type} />

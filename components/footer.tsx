@@ -1,12 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
-import { pageFetcher } from "@/lib/data";
-import { SocialMedias } from "@/lib/definitions";
+import { pageFetcher, serviceListFetcher } from "@/lib/data";
+import { Services, SocialMedias } from "@/lib/definitions";
 
 const Footer = async () => {
   const footer = await pageFetcher("footer");
   const navbar = await pageFetcher("navigation-bar");
   const socialMedias: SocialMedias = await pageFetcher("social-medias");
+  const services: Services = await serviceListFetcher("services");
 
   return (
     <div className="bg-[#E9E9E9] border-border border-t-[1px]">
@@ -33,16 +34,30 @@ const Footer = async () => {
           </div>
           <div className="flex flex-col gap-2 max-w-md">
             <h1 className="text-xl">ลิงค์เว็บไซท์</h1>
-            <Link href={"/"}>{navbar.home}</Link>
-            <Link href={"/service/1"}>{navbar.service}</Link>
-            <Link href={"/about-us"}>{navbar.about_us}</Link>
-            <Link href={"/contact-us"}>{navbar.contact_us}</Link>
+            <Link href={"/"} className="w-fit">
+              {navbar.home}
+            </Link>
+            <Link href={"/service/1"} className="w-fit">
+              {navbar.service}
+            </Link>
+            <Link href={"/about-us"} className="w-fit">
+              {navbar.about_us}
+            </Link>
+            <Link href={"/contact-us"} className="w-fit">
+              {navbar.contact_us}
+            </Link>
           </div>
-          <div className="space-y-2 max-w-md">
+          <div className="flex flex-col gap-2 max-w-md">
             <h1 className="text-xl">บริการของเรา</h1>
-            <p>จดทะเบียนนิติบุคคล</p>
-            <p>ทำบัญชีรายเดือน</p>
-            <p>ปิดงบการเงิน</p>
+            {services.map((service) => (
+              <Link
+                href={`/services/${service.slug}`}
+                className="w-fit"
+                key={service.slug}
+              >
+                <p>{service.name}</p>
+              </Link>
+            ))}
           </div>
           <div className="flex gap-4 h-fit">
             {socialMedias.map((socialMedia, index) => (

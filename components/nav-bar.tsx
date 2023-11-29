@@ -55,8 +55,12 @@ const NavBar = ({ navItems, services }: NavBarProps) => {
           service={navItems?.service}
           contact_us={navItems?.contact_us}
           about_us={navItems?.about_us}
+          services={services}
         />
-        <Menu onClick={() => setOpen(true)} className="md:hidden" />
+        <Menu
+          onClick={() => setOpen(true)}
+          className="md:hidden cursor-pointer"
+        />
         <span className="font-bold">{navItems?.website_name}</span>
       </div>
       <div className="hidden md:flex items-center gap-8">

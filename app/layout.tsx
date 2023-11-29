@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Anuphan } from "next/font/google";
 import "./globals.css";
-import { pageFetcher } from "@/lib/data";
+import { pageFetcher, serviceListFetcher } from "@/lib/data";
 import { Services } from "@/lib/definitions";
 
 import NavBar from "@/components/nav-bar";
@@ -20,7 +20,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const navItems = await pageFetcher("navigation-bar");
-  const services: Services = await pageFetcher("services");
+  const services: Services = await serviceListFetcher("services");
 
   return (
     <html lang="en">

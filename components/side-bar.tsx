@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 
+import { Services } from "@/lib/definitions";
 import {
   Sheet,
   SheetContent,
@@ -18,6 +19,7 @@ interface SideBarProps {
   service: string;
   about_us: string;
   contact_us: string;
+  services: Services;
 }
 
 const SideBar = ({
@@ -28,6 +30,7 @@ const SideBar = ({
   service,
   about_us,
   contact_us,
+  services,
 }: SideBarProps) => {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -36,16 +39,42 @@ const SideBar = ({
           <SheetTitle className="text-left">{website_name}</SheetTitle>
         </SheetHeader>
         <div className="flex flex-col gap-2 pt-4">
-          <Link href={"/"} className="w-fit">
+          <Link href={"/"} className="w-fit" onClick={() => setOpen(false)}>
             {home}
           </Link>
-          <Link href={"/services/1"} className="w-fit">
-            {service}
-          </Link>
-          <Link href={"/contact-us"} className="w-fit">
+          <div className="flex flex-col space-y-1">
+            <Link
+              href={`/services/${services[0].slug}`}
+              className="w-fit"
+              onClick={() => setOpen(false)}
+            >
+              {service}
+            </Link>
+            <ul className="flex flex-col gap-1 border-l-[1px] border-border ms-4">
+              {services.map((service) => (
+                <Link
+                  key={service.slug}
+                  href={`/services/${service.slug}`}
+                  className="w-fit ps-2"
+                  onClick={() => setOpen(false)}
+                >
+                  <li className="m-0">{service.name}</li>
+                </Link>
+              ))}
+            </ul>
+          </div>
+          <Link
+            href={"/contact-us"}
+            className="w-fit"
+            onClick={() => setOpen(false)}
+          >
             {contact_us}
           </Link>
-          <Link href={"/about-us"} className="w-fit">
+          <Link
+            href={"/about-us"}
+            className="w-fit"
+            onClick={() => setOpen(false)}
+          >
             {about_us}
           </Link>
         </div>
