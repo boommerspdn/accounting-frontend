@@ -1,4 +1,8 @@
 export type NavLinks = {
+  logo: {
+    url: string;
+    alternativeText: string;
+  };
   website_name: string;
   home: string;
   service: string;
@@ -20,3 +24,8 @@ export type Services = {
   description: string;
   slug: string;
 }[];
+
+export type MetaTag = {
+  meta_title: string;
+  meta_description: string;
+};

@@ -5,6 +5,7 @@ import { useState } from "react";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
 
 import {
   Form,
@@ -46,111 +47,127 @@ const ContactForm = () => {
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     setIsSubmitting(true);
-    console.log(data);
-    setTimeout(() => {
-      form.reset();
+    try {
+      await fetch(`/api/send`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
       setIsSubmitting(false);
-    }, 2000);
+      form.reset();
+      toast.success("ส่งอีเมลสำเร็จ");
+    } catch (e) {
+      setIsSubmitting(false);
+      toast.error("เกิดข้อผิดพลาด! ส่งอีเมลไม่สำเร็จ");
+      console.log(e);
+    }
   };
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-2">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem className="col-span-1">
-                <FormLabel>ชื่อ</FormLabel>
-                <FormControl>
-                  <Input {...field} placeholder="กรอกชื่อของคุณ" />
-                </FormControl>
+    <>
+      <Toaster />
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-2">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem className="col-span-1">
+                  <FormLabel>ชื่อ</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="กรอกชื่อของคุณ" />
+                  </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem className="col-span-1">
-                <FormLabel>อีเมล</FormLabel>
-                <FormControl>
-                  <Input {...field} placeholder="กรอกอีเมลของคุณ" />
-                </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="col-span-1">
+                  <FormLabel>อีเมล</FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="กรอกอีเมลของคุณ" />
+                  </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem className="col-span-1">
-                <FormLabel>เบอร์โทรศัพท์</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    type="number"
-                    inputMode="numeric"
-                    pattern="[0-9]+"
-                    placeholder="กรอกเบอร์โทรศัพท์ของคุณ"
-                  />
-                </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem className="col-span-1">
+                  <FormLabel>เบอร์โทรศัพท์</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="number"
+                      inputMode="numeric"
+                      pattern="[0-9]+"
+                      placeholder="กรอกเบอร์โทรศัพท์ของคุณ"
+                    />
+                  </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="company"
-            render={({ field }) => (
-              <FormItem className="col-span-1">
-                <FormLabel>
-                  ชื่อบริษัท{" "}
-                  <span className="text-destructive">(*ไม่จำเป็น)</span>
-                </FormLabel>
-                <FormControl>
-                  <Input {...field} placeholder="กรอกชื่อบริษัทของคุณ" />
-                </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="company"
+              render={({ field }) => (
+                <FormItem className="col-span-1">
+                  <FormLabel>
+                    ชื่อบริษัท{" "}
+                    <span className="text-black/60">(*ไม่จำเป็น)</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input {...field} placeholder="กรอกชื่อบริษัทของคุณ" />
+                  </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="message"
-            render={({ field }) => (
-              <FormItem className="sm:col-span-2">
-                <FormLabel>ข้อความ</FormLabel>
-                <FormControl>
-                  <Textarea
-                    className="resize-none"
-                    placeholder="กรอกข้อความที่ต้องการส่งหาเรา"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-        <div className="flex justify-center items-center">
-          <button
-            type="submit"
-            className="bg-custom-blue py-2 px-20 rounded-full text-white"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? <Loader2 className="animate-spin" /> : "ส่งข้อความ"}
-          </button>
-        </div>
-      </form>
-    </Form>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="message"
+              render={({ field }) => (
+                <FormItem className="sm:col-span-2">
+                  <FormLabel>ข้อความ</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      className="resize-none"
+                      placeholder="กรอกข้อความที่ต้องการส่งหาเรา"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="flex justify-center items-center">
+            <button
+              type="submit"
+              className="bg-custom-blue py-2 px-20 rounded-full text-white"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <Loader2 className="animate-spin" />
+              ) : (
+                "ส่งข้อความ"
+              )}
+            </button>
+          </div>
+        </form>
+      </Form>
+    </>
   );
 };
 

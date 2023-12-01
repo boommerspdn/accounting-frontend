@@ -2,12 +2,19 @@ import Image from "next/image";
 
 interface HeroBannerProps {
   url: string;
+  alt: string;
   title: string;
   description: string;
   button: string;
 }
 
-const HeroBanner = ({ url, title, description, button }: HeroBannerProps) => {
+const HeroBanner = ({
+  url,
+  alt,
+  title,
+  description,
+  button,
+}: HeroBannerProps) => {
   return (
     <div className="relative w-full h-[700px] flex justify-center items-center">
       <div className="container flex flex-col justify-center items-center gap-y-12">
@@ -25,10 +32,9 @@ const HeroBanner = ({ url, title, description, button }: HeroBannerProps) => {
       <Image
         className="object-cover -z-50"
         src={`${process.env.NEXT_PUBLIC_API_URL}${url}`}
-        alt="test"
+        alt={alt || "Hero Background"}
         fill
         priority
-        quality={100}
       />
     </div>
   );

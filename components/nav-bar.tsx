@@ -9,6 +9,7 @@ import { NavLinks, Services } from "@/lib/definitions";
 import SideBar from "./side-bar";
 import { Menu } from "lucide-react";
 import ServiceNav from "./service-nav";
+import Image from "next/image";
 
 interface NavBarProps {
   navItems: NavLinks;
@@ -61,12 +62,19 @@ const NavBar = ({ navItems, services }: NavBarProps) => {
           onClick={() => setOpen(true)}
           className="md:hidden cursor-pointer"
         />
+        {/* <div className="relative w-[25px] aspect-square">
+          <Image
+            src={`${process.env.NEXT_PUBLIC_API_URL}${navItems?.logo.url}`}
+            alt={navItems.logo.alternativeText || "Logo"}
+            fill
+            priority
+          />
+        </div> */}
         <span className="font-bold">{navItems?.website_name}</span>
       </div>
       <div className="hidden md:flex items-center gap-8">
         <Link href={"/"}>{navItems?.home}</Link>
         <ServiceNav services={services} />
-        {/* <Link href={"/services/1"}>{navItems?.service}</Link> */}
         <Link href={"/contact-us"}>{navItems?.contact_us}</Link>
         <Link href={"/about-us"}>{navItems?.about_us}</Link>
       </div>

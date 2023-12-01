@@ -1,12 +1,37 @@
+import { Metadata, ResolvingMetadata } from "next";
+
 import Header from "@/components/header";
 import RichText from "@/components/rich-text";
 import Contact from "@/components/contact";
-
-import { serviceFetcher } from "@/lib/data";
-
 import PackagesList from "./components/packages-list";
 import ServicesList from "./components/services-list";
 import ServiceNotFound from "./components/service-not-found";
+import { metaFetcher, serviceFetcher, serviceListFetcher } from "@/lib/data";
+import { MetaTag, Services } from "@/lib/definitions";
+
+type Props = {
+  params: { slug: string };
+};
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // fetch data
+  const services: Services = await serviceListFetcher("services");
+  const currentService = services.find(
+    (service) => service.slug === params.slug
+  )?.name;
+  const meta: MetaTag[] = await metaFetcher("services", params.slug);
+
+  return {
+    title: meta[0].meta_title,
+    description: meta[0].meta_description,
+    alternates: {
+      canonical: `${process.env.NEXT_PUBLIC_API_URL}/services/${currentService}`,
+    },
+  };
+}
 
 const ServicePage = async ({ params }: { params: { slug: string } }) => {
   const serviceData = await serviceFetcher("services", params.slug);
@@ -29,7 +54,7 @@ const ServicePage = async ({ params }: { params: { slug: string } }) => {
           </h1>
           <div className="col-span-5 space-y-6">
             <RichText
-              className="flex flex-col gap-2 text-xl tracking-wide"
+              className="flex flex-col gap-4 text-xl tracking-wide"
               data={serviceData[0].body}
             />
           </div>

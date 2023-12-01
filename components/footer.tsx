@@ -16,19 +16,34 @@ const Footer = async () => {
           <div className="space-y-2 md:max-w-xs lg:max-w-md">
             <h1 className="text-xl">{footer.company_info}</h1>
             <div className="flex gap-2">
-              <Image src={"/email.svg"} alt="" width={25} height={25} />
+              <Image
+                src={`${process.env.NEXT_PUBLIC_API_URL}${navbar.logo.url}`}
+                alt={navbar.logo.alternativeText || "Logo"}
+                width={25}
+                height={25}
+              />
               <p>{footer.company_name}</p>
             </div>
             <div className="flex gap-2 items-start">
-              <Image src={"/location.svg"} alt="" width={25} height={25} />
+              <Image
+                src={"/location.svg"}
+                alt="Location"
+                width={25}
+                height={25}
+              />
               <p>{footer.company_address}</p>
             </div>
             <div className="flex gap-2">
-              <Image src={"/phone.svg"} alt="" width={25} height={25} />
+              <Image
+                src={"/phone.svg"}
+                alt="Phone number"
+                width={25}
+                height={25}
+              />
               <p>{footer.company_phone_number}</p>
             </div>
             <div className="flex gap-2">
-              <Image src={"/email.svg"} alt="" width={25} height={25} />
+              <Image src={"/email.svg"} alt="Email" width={25} height={25} />
               <p> {footer.company_email}</p>
             </div>
           </div>
@@ -61,7 +76,7 @@ const Footer = async () => {
           </div>
           <div className="flex gap-4 h-fit">
             {socialMedias.map((socialMedia, index) => (
-              <Link
+              <a
                 key={index}
                 href={socialMedia.url || "/"}
                 target="_blank"
@@ -69,11 +84,11 @@ const Footer = async () => {
               >
                 <Image
                   src={`${process.env.NEXT_PUBLIC_API_URL}${socialMedia.image.url}`}
-                  alt={socialMedia.platform}
+                  alt={socialMedia.platform || "Social Media"}
                   width={35}
                   height={35}
                 />
-              </Link>
+              </a>
             ))}
           </div>
         </div>

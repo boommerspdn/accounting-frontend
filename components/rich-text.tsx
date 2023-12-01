@@ -41,7 +41,7 @@ const RichText = ({ data, className, listSpaceClass }: RictTextProps) => {
               <div className="relative w-full aspect-[4/2] my-3 rounded-sm">
                 <Image
                   src={image.url}
-                  alt={image.alternativeText || ""}
+                  alt={image.alternativeText || "Image for paragraph"}
                   fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 60vw"
                   className="object-cover"

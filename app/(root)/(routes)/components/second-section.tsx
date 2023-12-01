@@ -4,12 +4,14 @@ interface SecondSectionProps {
   title: string;
   description: string;
   image_url: string;
+  alt: string;
 }
 
 const SecondSection = ({
   title,
   description,
   image_url,
+  alt,
 }: SecondSectionProps) => {
   return (
     <div className="bg-custom-blue">
@@ -19,10 +21,10 @@ const SecondSection = ({
             <Image
               className="object-cover rounded"
               src={`${process.env.NEXT_PUBLIC_API_URL}${image_url}`}
-              alt="test"
+              alt={alt || "Why you should work with us"}
               fill
               quality={100}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 60vw"
             />
           </div>
         </div>
