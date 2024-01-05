@@ -20,14 +20,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Loader2, CheckCircle } from "lucide-react";
 
 const FormSchema = z.object({
-  name: z.string().min(1, "ชื่อต้องมีอย่างน้อย 1 ตัวอักษร").max(23),
+  name: z.string().min(1, "ชื่อต้องมีอย่างน้อย 1 ตัวอักษร").max(23, "ชื่อต้องไม่เกิน 23 ตัวอักษร"),
   email: z
     .string()
     .email("อีเมลไม่ถูกต้อง")
     .min(1, "อีเมลต้องมีอย่างน้อย 1 ตัวอักษร")
-    .max(50),
-  phone: z.string().min(1, "เบอร์โทรศัพท์ต้องมีอย่างน้อย 1 ตัวอักษร").max(23),
-  company: z.string().max(23).optional(),
+    .max(50, "อีเมลต้องไม่เกิน 50 ตัวอักษร"),
+  phone: z.string().min(1, "เบอร์โทรศัพท์ต้องมีอย่างน้อย 1 ตัวอักษร").max(23, "เบอร์โทรศัพท์ต้องไม่เกิน 23 ตัวอักษร"),
+  company: z.string().max(23, "เบอร์โทรศัพท์ต้องไม่เกิน 23 ตัวอักษร").optional(),
   message: z.string().min(1, "ข้อความต้องมีอย่างน้อย 1 ตัวอักษร"),
 });
 
@@ -76,7 +76,7 @@ const ContactForm = () => {
                 <FormItem className="col-span-1">
                   <FormLabel>ชื่อ</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="กรอกชื่อของคุณ" />
+                    <Input {...field} placeholder="กรอกชื่อของคุณ" maxLength={23} />
                   </FormControl>
 
                   <FormMessage />
@@ -90,7 +90,7 @@ const ContactForm = () => {
                 <FormItem className="col-span-1">
                   <FormLabel>อีเมล</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="กรอกอีเมลของคุณ" />
+                    <Input {...field} placeholder="กรอกอีเมลของคุณ" maxLength={50}/>
                   </FormControl>
 
                   <FormMessage />
@@ -110,6 +110,7 @@ const ContactForm = () => {
                       inputMode="numeric"
                       pattern="[0-9]+"
                       placeholder="กรอกเบอร์โทรศัพท์ของคุณ"
+                      maxLength={23}
                     />
                   </FormControl>
 
@@ -127,7 +128,7 @@ const ContactForm = () => {
                     <span className="text-black/60">(*ไม่จำเป็น)</span>
                   </FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="กรอกชื่อบริษัทของคุณ" />
+                    <Input {...field} placeholder="กรอกชื่อบริษัทของคุณ" maxLength={23} />
                   </FormControl>
 
                   <FormMessage />
