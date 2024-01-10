@@ -10,7 +10,7 @@ export async function pageFetcher(page: string) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/${page}?${query}`,
       {
-        cache: "no-store",
+         next: {revalidate: 3000}
       }
     );
     const data = await response.json();
@@ -31,7 +31,7 @@ export async function serviceFetcher(page: string, params: string) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/${page}?${query}&filters[slug][$eq]=${params}`,
       {
-        cache: "no-store",
+        next: {revalidate: 3000}
       }
     );
     const data = await response.json();
@@ -49,7 +49,7 @@ export async function serviceListFetcher(page: string) {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/${page}`,
       {
-        cache: "no-store",
+         next: {revalidate: 3000}
       }
     );
     const data = await response.json();
@@ -74,7 +74,7 @@ export async function metaFetcher(
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/${page}?fields[0]=meta_title&fields[1]=meta_description${slug}`,
       {
-        cache: "no-store",
+         next: {revalidate: 3000}
       }
     );
     const data = await response.json();

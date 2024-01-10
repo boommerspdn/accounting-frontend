@@ -33,8 +33,18 @@ export async function generateMetadata(
   };
 }
 
+export async function generateStaticParams() {
+  const services: Services = await serviceListFetcher("services");
+
+  return services.map((service) => ({
+    slug: service.slug,
+  }));
+}
+
+
+
 const ServicePage = async ({ params }: { params: { slug: string } }) => {
-  const serviceData = await serviceFetcher("services", params.slug);
+  const serviceData = await serviceFetcher("services", params.slug);;
 
   if (serviceData.length === 0 || serviceData === null) {
     return <ServiceNotFound />;
