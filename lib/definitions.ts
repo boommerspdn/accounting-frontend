@@ -15,6 +15,7 @@ export type SocialMedias = {
   platform: string;
   url: string;
   image: {
+    name: string;
     url: string;
   };
 }[];

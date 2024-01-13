@@ -66,7 +66,7 @@ const ContactUs = async () => {
                 className="h-fit"
               >
                 <Image
-                  src={`${process.env.NEXT_PUBLIC_API_URL}${socialMedia.image.url}`}
+                  src={`/images/${socialMedia.image.name}`}
                   alt={socialMedia.platform || "Social Media"}
                   width={35}
                   height={35}

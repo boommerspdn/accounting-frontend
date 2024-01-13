@@ -33,7 +33,7 @@ const AboutUs = async () => {
             <div className="relative w-full h-full">
               {aboutUsData.header_image && (
                 <Image
-                  src={`${process.env.NEXT_PUBLIC_API_URL}${aboutUsData.header_image.url}`}
+                  src={`/images/${aboutUsData.header_image.name}`}
                   alt={
                     aboutUsData.header_image.alternativeText || "Header Image"
                   }

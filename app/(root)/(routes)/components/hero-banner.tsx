@@ -31,7 +31,7 @@ const HeroBanner = ({
       <div className="absolute w-full h-full bg-black -z-40 opacity-70 " />
       <Image
         className="object-cover -z-50"
-        src={`${process.env.NEXT_PUBLIC_API_URL}${url}`}
+        src={`/images/${url}`}
         alt={alt || "Hero Background"}
         fill
         priority

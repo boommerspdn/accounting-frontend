@@ -23,7 +23,7 @@ export default async function Home() {
   return (
     <div className="flex flex-col">
       <HeroBanner
-        url={homeData.banner_image.url}
+        url={homeData.banner_image.name}
         alt={homeData.banner_image.alternativeText}
         title={homeData.banner_text}
         description={homeData.banner_description}
@@ -51,7 +51,7 @@ export default async function Home() {
       <SecondSection
         title={homeData.section_2_title}
         description={homeData.section_2_body}
-        image_url={homeData.section_2_image.url}
+        image_url={homeData.section_2_image.name}
         alt={homeData.section_2_image.alternativeText}
       />
       <ThirdSection

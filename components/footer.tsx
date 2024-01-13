@@ -17,7 +17,7 @@ const Footer = async () => {
             <h1 className="text-xl">{footer.company_info}</h1>
             <div className="flex gap-2">
               <Image
-                src={`${process.env.NEXT_PUBLIC_API_URL}${navbar.logo.url}`}
+                src={`/images/${navbar.logo.name}`}
                 alt={navbar.logo.alternativeText || "Logo"}
                 width={25}
                 height={25}
@@ -83,7 +83,7 @@ const Footer = async () => {
                 className="h-fit"
               >
                 <Image
-                  src={`${process.env.NEXT_PUBLIC_API_URL}${socialMedia.image.url}`}
+                  src={`/images/${socialMedia.image.name}`}
                   alt={socialMedia.platform || "Social Media"}
                   width={35}
                   height={35}
