@@ -31,7 +31,7 @@ const Footer = async ({
             <h1 className="text-xl">ข้อมูลบริษัท</h1>
             <div className="flex gap-2">
               <img
-                src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}${logo.url}`}
+                src={`${process.env.NEXT_PUBLIC_API_URL}${logo.url}`}
                 alt={logo.alternativeText || "Logo"}
                 width={25}
                 height={25}

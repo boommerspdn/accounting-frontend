@@ -60,7 +60,7 @@ const AboutUs = async () => {
           <div className="absolute lg:-top-28 lg:ms-[2.25rem] w-full max-w-lg lg:max-w-none lg:w-[90%] aspect-[3/2] md:mx-auto md:inset-0">
             <div className="relative w-full h-full">
               <img
-                src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}${aboutUsData.header_image.url}`}
+                src={`${process.env.NEXT_PUBLIC_API_URL}${aboutUsData.header_image.url}`}
                 alt={aboutUsData.header_image.alternativeText || "Header Image"}
                 className="rounded-3xl shadow-2xl object-cover w-full h-full"
               />

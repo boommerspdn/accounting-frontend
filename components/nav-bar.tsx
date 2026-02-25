@@ -63,7 +63,7 @@ const NavBar = ({ name, logo, servicesNameSlug }: NavBarProps) => {
         />
         <div className="relative w-[25px] aspect-square">
           <img
-            src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}${logo.url}`}
+            src={`${process.env.NEXT_PUBLIC_API_URL}${logo.url}`}
             alt={logo.alternativeText || "Logo"}
             className="w-full"
           />
