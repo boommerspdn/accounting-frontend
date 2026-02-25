@@ -53,8 +53,6 @@ const ContactUs = async () => {
   const contactUsData = await fetchContactData();
   const layoutData = await fetchLayoutData();
 
-  console.log(contactUsData);
-
   return (
     <>
       <Header title={"ติดต่อเรา"} />
