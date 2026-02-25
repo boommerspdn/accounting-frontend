@@ -1,29 +1,56 @@
-import type { Metadata, ResolvingMetadata } from "next";
-import { metaFetcher, pageFetcher, serviceListFetcher } from "@/lib/data";
-import { MetaTag, Services } from "@/lib/definitions";
+import { fetchHomeData, fetchLayoutData } from "@/lib/data";
+import type { Metadata } from "next";
+import qs from "qs";
+import FirstSection from "./components/first-section";
 import HeroBanner from "./components/hero-banner";
 import HeroSection from "./components/hero-section";
-import FirstSection from "./components/first-section";
 import SecondSection from "./components/second-section";
 import ThirdSection from "./components/third-section";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const meta: MetaTag = await metaFetcher("home-page", null);
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
+  const query = qs.stringify(
+    {
+      fields: ["id"],
+      populate: {
+        seo: {
+          fields: ["id", "title", "description"],
+        },
+      },
+    },
+    {
+      encodeValuesOnly: true,
+    },
+  );
+
+  const url = new URL(`/api/home-page?${query}`, baseUrl);
+
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+    },
+    cache: "force-cache",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch service by slug");
+  }
+
+  const meta = await res.json();
 
   return {
-    title: meta.meta_title,
-    description: meta.meta_description,
+    title: meta.data.seo.title,
+    description: meta.data.seo.description,
   };
 }
 
 export default async function Home() {
-  const homeData = await pageFetcher("home-page");
-  const services: Services = await serviceListFetcher("services");
+  const homeData = await fetchHomeData();
 
   return (
     <div className="flex flex-col">
       <HeroBanner
-        url={homeData.banner_image.name}
+        url={homeData.banner_image.url}
         alt={homeData.banner_image.alternativeText}
         title={homeData.banner_text}
         description={homeData.banner_description}
@@ -46,12 +73,12 @@ export default async function Home() {
       <FirstSection
         title={homeData.section_1_title}
         description={homeData.section_1_description}
-        services={services}
+        services={homeData.services}
       />
       <SecondSection
         title={homeData.section_2_title}
         description={homeData.section_2_body}
-        image_url={homeData.section_2_image.name}
+        image_url={homeData.section_2_image.url}
         alt={homeData.section_2_image.alternativeText}
       />
       <ThirdSection

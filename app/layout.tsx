@@ -1,35 +1,49 @@
+import Footer from "@/components/footer";
+import NavBar from "@/components/nav-bar";
+import { fetchLayoutData } from "@/lib/data";
 import type { Metadata } from "next";
 import { Anuphan } from "next/font/google";
 import "./globals.css";
-import { pageFetcher, serviceListFetcher } from "@/lib/data";
-import { Services } from "@/lib/definitions";
-
-import NavBar from "@/components/nav-bar";
-import Footer from "@/components/footer";
 
 const anuphan = Anuphan({ subsets: ["latin"] });
 
-export const metadata: Metadata = {
-  title: {
-    template: "%s | Fast on Time",
-    default: "Fast on Time", // a default is required when creating a template
-  },
-};
+// export async function generateMetadata(): Promise<Metadata> {
+//   const layout = await fetchLayoutData();
+
+//   return {
+//     icons: {
+//       icon: `${layout.logo.url}`,
+//     },
+//   };
+// }
 
 export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const navItems = await pageFetcher("navigation-bar");
-  const services: Services = await serviceListFetcher("services");
+  const layoutData = await fetchLayoutData();
 
   return (
     <html lang="en">
       <body className={anuphan.className}>
-        <NavBar navItems={navItems} services={services} />
+        <NavBar
+          name={layoutData.name}
+          logo={layoutData.logo}
+          servicesNameSlug={layoutData.services}
+        />
         {children}
-        <Footer />
+        <Footer
+          company_address={layoutData.address}
+          company_email={layoutData.email}
+          company_phone_number={layoutData.phone}
+          copyright={layoutData.copyright}
+          facebook_link={layoutData.facebook_link}
+          line_link={layoutData.line_link}
+          logo={layoutData.logo}
+          company_name={layoutData.name}
+          servicesNameSlug={layoutData.services}
+        />
       </body>
     </html>
   );

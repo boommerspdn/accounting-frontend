@@ -1,14 +1,14 @@
-import Link from "next/link";
-import { pageFetcher, serviceListFetcher } from "@/lib/data";
-import { Services } from "@/lib/definitions";
+import { fetchLayoutData } from "@/lib/data";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 interface ServiceListProps {
   slug: string;
 }
 
 const ServicesList = async ({ slug }: ServiceListProps) => {
-  const services: Services = await serviceListFetcher("services");
+  const layoutData = await fetchLayoutData();
+  const services = layoutData.services;
   return (
     <>
       {services.map((service, index) => (
@@ -17,7 +17,7 @@ const ServicesList = async ({ slug }: ServiceListProps) => {
           href={`/services/${service.slug}`}
           className={cn(
             "text-muted-foreground hover:text-black/80",
-            service.slug === slug ? "text-black" : ""
+            service.slug === slug ? "text-black" : "",
           )}
         >
           {service.name}

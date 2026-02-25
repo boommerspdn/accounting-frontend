@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 
-import { Services } from "@/lib/definitions";
+import { NameSlug } from "@/app/types";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/navigation-menu";
 
 interface ServiceNavProps {
-  services: Services;
+  services: NameSlug[];
 }
 
 const ServiceNav = ({ services }: ServiceNavProps) => {

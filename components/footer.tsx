@@ -1,70 +1,81 @@
-import Link from "next/link";
+import { NameSlug } from "@/app/types";
 import Image from "next/image";
-import { pageFetcher, serviceListFetcher } from "@/lib/data";
-import { Services, SocialMedias } from "@/lib/definitions";
+import Link from "next/link";
 
-const Footer = async () => {
-  const footer = await pageFetcher("footer");
-  const navbar = await pageFetcher("navigation-bar");
-  const socialMedias: SocialMedias = await pageFetcher("social-medias");
-  const services: Services = await serviceListFetcher("services");
-
+const Footer = async ({
+  logo,
+  company_name,
+  company_address,
+  company_phone_number,
+  company_email,
+  facebook_link,
+  line_link,
+  copyright,
+  servicesNameSlug,
+}: {
+  logo: { alternativeText: string; url: string };
+  company_name: string;
+  company_address: string;
+  company_phone_number: string;
+  company_email: string;
+  facebook_link: string;
+  line_link: string;
+  copyright: string;
+  servicesNameSlug: NameSlug[];
+}) => {
   return (
     <div className="bg-[#E9E9E9] border-border border-t-[1px]">
       <div className="container flex flex-col justify-between h-full pb-4">
         <div className="flex flex-col md:flex-row gap-10 md:gap-5 xl:gap-20 mt-14 mb-10">
           <div className="space-y-2 md:max-w-xs lg:max-w-md">
-            <h1 className="text-xl">{footer.company_info}</h1>
+            <h1 className="text-xl">ข้อมูลบริษัท</h1>
             <div className="flex gap-2">
-              <Image
-                src={`/images/${navbar.logo.name}`}
-                alt={navbar.logo.alternativeText || "Logo"}
+              <img
+                src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}${logo.url}`}
+                alt={logo.alternativeText || "Logo"}
                 width={25}
                 height={25}
               />
-              <p>{footer.company_name}</p>
+              <p>{company_name}</p>
             </div>
             <div className="flex gap-2 items-start">
-              <Image
+              <img
                 src={"/location.svg"}
                 alt="Location"
                 width={25}
                 height={25}
               />
-              <p>{footer.company_address}</p>
+              <p>{company_address}</p>
             </div>
             <div className="flex gap-2">
-              <Image
+              <img
                 src={"/phone.svg"}
                 alt="Phone number"
                 width={25}
                 height={25}
               />
-              <p>{footer.company_phone_number}</p>
+              <p>{company_phone_number}</p>
             </div>
             <div className="flex gap-2">
-              <Image src={"/email.svg"} alt="Email" width={25} height={25} />
-              <p> {footer.company_email}</p>
+              <img src={"/email.svg"} alt="Email" width={25} height={25} />
+              <p> {company_email}</p>
             </div>
           </div>
           <div className="flex flex-col gap-2 max-w-md">
             <h1 className="text-xl">ลิงค์เว็บไซท์</h1>
             <Link href={"/"} className="w-fit">
-              {navbar.home}
-            </Link>
-            <Link href={"/service/1"} className="w-fit">
-              {navbar.service}
+              หน้าแรก
             </Link>
             <Link href={"/about-us"} className="w-fit">
-              {navbar.about_us}
+              เกี่ยวกับเรา
             </Link>
             <Link href={"/contact-us"} className="w-fit">
-              {navbar.contact_us}
+              ติดต่อเรา
             </Link>
           </div>
           <div className="flex flex-col gap-2 max-w-md">
             <h1 className="text-xl">บริการของเรา</h1>
-            {services.map((service) => (
+            {servicesNameSlug.map((service) => (
               <Link
                 href={`/services/${service.slug}`}
                 className="w-fit"
@@ -75,24 +86,17 @@ const Footer = async () => {
             ))}
           </div>
           <div className="flex gap-4 h-fit">
-            {socialMedias.map((socialMedia, index) => (
-              <a
-                key={index}
-                href={socialMedia.url || "/"}
-                target="_blank"
-                className="h-fit"
-              >
-                <Image
-                  src={`/images/${socialMedia.image.name}`}
-                  alt={socialMedia.platform || "Social Media"}
-                  width={35}
-                  height={35}
-                />
-              </a>
-            ))}
+            <a href={facebook_link || "/"} target="_blank" className="w-fit">
+              <img src="/Facebook.png" alt="Facebook" width={35} height={35} />
+            </a>
+            <a href={line_link || "/"} target="_blank" className="w-fit">
+              <img src="/Line.png" alt="Line" width={35} height={35} />
+            </a>
           </div>
         </div>
-        <p className="text-center text-sm sm:text-base">{footer.copyright}</p>
+        <p className="text-center text-sm sm:text-base">
+          Copyright {new Date().getFullYear()} {copyright}
+        </p>
       </div>
     </div>
   );

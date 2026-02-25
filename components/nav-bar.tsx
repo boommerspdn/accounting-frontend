@@ -1,22 +1,22 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
+import { NameSlug } from "@/app/types";
 import { cn } from "@/lib/utils";
-import { NavLinks, Services } from "@/lib/definitions";
-import SideBar from "./side-bar";
 import { Menu } from "lucide-react";
 import ServiceNav from "./service-nav";
-import Image from "next/image";
+import SideBar from "./side-bar";
 
 interface NavBarProps {
-  navItems: NavLinks;
-  services: Services;
+  name: string;
+  logo: { alternativeText: string; url: string };
+  servicesNameSlug: NameSlug[];
 }
 
-const NavBar = ({ navItems, services }: NavBarProps) => {
+const NavBar = ({ name, logo, servicesNameSlug }: NavBarProps) => {
   const [color, setColor] = useState("");
   const [open, setOpen] = useState(false);
 
@@ -44,39 +44,37 @@ const NavBar = ({ navItems, services }: NavBarProps) => {
             ? `bg-transparent text-white ${animation}`
             : "bg-white text-black border-border"
         }`,
-        color
+        color,
       )}
     >
       <div className="flex gap-2 items-center justify-center">
         <SideBar
           open={open}
           setOpen={setOpen}
-          website_name={navItems?.website_name}
-          home={navItems?.home}
-          service={navItems?.service}
-          contact_us={navItems?.contact_us}
-          about_us={navItems?.about_us}
-          services={services}
+          website_name={name}
+          home={"หน้าแรก"}
+          contact_us={"ติดต่อเรา"}
+          about_us={"เกี่ยวกับเรา"}
+          serviceNameAndSlug={servicesNameSlug}
         />
         <Menu
           onClick={() => setOpen(true)}
           className="md:hidden cursor-pointer"
         />
-        {/* <div className="relative w-[25px] aspect-square">
-          <Image
-            src={`${process.env.NEXT_PUBLIC_API_URL}${navItems?.logo.url}`}
-            alt={navItems.logo.alternativeText || "Logo"}
-            fill
-            priority
+        <div className="relative w-[25px] aspect-square">
+          <img
+            src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}${logo.url}`}
+            alt={logo.alternativeText || "Logo"}
+            className="w-full"
           />
-        </div> */}
-        <span className="font-bold">{navItems?.website_name}</span>
+        </div>
+        <span className="font-bold">{name}</span>
       </div>
       <div className="hidden md:flex items-center gap-8">
-        <Link href={"/"}>{navItems?.home}</Link>
-        <ServiceNav services={services} />
-        <Link href={"/contact-us"}>{navItems?.contact_us}</Link>
-        <Link href={"/about-us"}>{navItems?.about_us}</Link>
+        <Link href={"/"}>หน้าแรก</Link>
+        <ServiceNav services={servicesNameSlug} />
+        <Link href={"/contact-us"}>ติดต่อเรา</Link>
+        <Link href={"/about-us"}>เกี่ยวกับเรา</Link>
       </div>
     </nav>
   );

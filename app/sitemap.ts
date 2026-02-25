@@ -1,12 +1,12 @@
 import { MetadataRoute } from "next";
-
-import { serviceListFetcher } from "@/lib/data";
-import { Services } from "@/lib/definitions";
+import { fetchLayoutData } from "@/lib/data";
+import { LayoutData } from "./types";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL;
 
-  const services: Services = await serviceListFetcher("services");
+  const layout: LayoutData = await fetchLayoutData();
+  const services = layout.services.filter((service) => service.slug);
   const serviceUrls = services.map((service) => ({
     url: `${baseUrl}/services/${service.slug}`,
     lastModified: new Date(),
@@ -18,7 +18,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     {
       url: baseUrl as string,
       lastModified: new Date(),
-      changeFrequency: "yearly",
+      changeFrequency: "monthly",
       priority: 1,
     },
     {
@@ -30,7 +30,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     {
       url: `${baseUrl}/about-us`,
       lastModified: new Date(),
-      changeFrequency: "weekly",
+      changeFrequency: "monthly",
       priority: 0.5,
     },
     ...serviceUrls,

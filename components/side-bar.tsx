@@ -2,13 +2,12 @@
 
 import Link from "next/link";
 
-import { Services } from "@/lib/definitions";
+import { NameSlug } from "@/app/types";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
-  SheetTrigger,
 } from "@/components/ui/sheet";
 
 interface SideBarProps {
@@ -16,10 +15,9 @@ interface SideBarProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   website_name: string;
   home: string;
-  service: string;
   about_us: string;
   contact_us: string;
-  services: Services;
+  serviceNameAndSlug: NameSlug[];
 }
 
 const SideBar = ({
@@ -27,10 +25,9 @@ const SideBar = ({
   setOpen,
   website_name,
   home,
-  service,
   about_us,
   contact_us,
-  services,
+  serviceNameAndSlug,
 }: SideBarProps) => {
   return (
     <Sheet open={open} onOpenChange={setOpen}>
@@ -44,14 +41,14 @@ const SideBar = ({
           </Link>
           <div className="flex flex-col space-y-1">
             <Link
-              href={`/services/${services[0].slug}`}
+              href={`/services/${serviceNameAndSlug[0].slug}`}
               className="w-fit"
               onClick={() => setOpen(false)}
             >
-              {service}
+              {serviceNameAndSlug[0].name}
             </Link>
             <ul className="flex flex-col gap-1 border-l-[1px] border-border ms-4">
-              {services.map((service) => (
+              {serviceNameAndSlug.map((service) => (
                 <Link
                   key={service.slug}
                   href={`/services/${service.slug}`}

@@ -1,10 +1,9 @@
-import { Services } from "@/lib/definitions";
 import Service from "./service";
 
 interface FirstSection {
   title: string;
   description: string;
-  services: Services;
+  services: { name: string; description: string; slug: string }[];
 }
 
 const FirstSection = ({ title, description, services }: FirstSection) => {

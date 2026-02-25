@@ -18,13 +18,10 @@ const SecondSection = ({
       <div className="container grid grid-cols-1 md:grid-cols-2 py-10 md:py-16 gap-x-12">
         <div className="flex justify-center">
           <div className="relative w-full sm:w-3/4 md:w-full aspect-[3/2]">
-            <Image
+            <img
               className="object-cover rounded"
-              src={`/images/${image_url}`}
+              src={`${process.env.NEXT_PUBLIC_IMAGE_BASE_URL}${image_url}`}
               alt={alt || "Why you should work with us"}
-              fill
-              quality={100}
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 60vw"
             />
           </div>
         </div>

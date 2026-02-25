@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import Image from "next/image";
 
+import Header from "@/components/header";
 import {
   Card,
   CardContent,
@@ -9,78 +8,104 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import Header from "@/components/header";
+import { fetchContactData, fetchLayoutData } from "@/lib/data";
+import qs from "qs";
 import ContactForm from "./components/contact-form";
-import { metaFetcher, pageFetcher } from "@/lib/data";
-import { MetaTag, SocialMedias } from "@/lib/definitions";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const meta: MetaTag = await metaFetcher("contact-page", null);
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
+  const query = qs.stringify(
+    {
+      fields: ["id"],
+      populate: {
+        seo: {
+          fields: ["id", "title", "description"],
+        },
+      },
+    },
+    {
+      encodeValuesOnly: true,
+    },
+  );
+
+  const url = new URL(`/api/contact-page?${query}`, baseUrl);
+
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+    },
+    cache: "force-cache",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch contact page metadata");
+  }
+
+  const meta = await res.json();
 
   return {
-    title: meta.meta_title,
-    description: meta.meta_description,
+    title: meta.data.seo.title,
+    description: meta.data.seo.description,
   };
 }
 
 const ContactUs = async () => {
-  const contactUsData = await pageFetcher("contact-page");
-  const socialMedias: SocialMedias = await pageFetcher("social-medias");
+  const contactUsData = await fetchContactData();
+  const layoutData = await fetchLayoutData();
+
+  console.log(contactUsData);
 
   return (
     <>
-      <Header title={contactUsData.header} />
+      <Header title={"ติดต่อเรา"} />
       <div className="container grid grid-cols-1 lg:grid-cols-5 gap-8">
         <div className="lg:col-span-3 space-y-2 text-center lg:text-start">
-          <h1 className="text-4xl pb-4">{contactUsData.sub_header}</h1>
+          <h1 className="text-4xl pb-4">ข้อมูลการติดต่อ</h1>
           <div className="space-y-1">
-            <h2 className="text-2xl text-custom-blue">
-              {contactUsData.company_name_title}
-            </h2>
-            <p>{contactUsData.company_name_body}</p>
+            <h2 className="text-2xl text-custom-blue">ชื่อบริษัท</h2>
+            <p>{contactUsData.company_name}</p>
           </div>
           <div className="space-y-1">
-            <h2 className="text-2xl text-custom-blue">
-              {contactUsData.company_address_title}
-            </h2>
-            <p>{contactUsData.company_address_body}</p>
+            <h2 className="text-2xl text-custom-blue">ที่อยู่</h2>
+            <p>{layoutData.address}</p>
           </div>
           <div className="space-y-1">
-            <h2 className="text-2xl text-custom-blue">
-              {contactUsData.company_phone_title}
-            </h2>
-            <p>{contactUsData.company_phone_body}</p>
+            <h2 className="text-2xl text-custom-blue">เบอร์โทรศัพท์</h2>
+            <p>{layoutData.phone}</p>
           </div>
           <div className="space-y-1">
-            <h2 className="text-2xl text-custom-blue">
-              {contactUsData.company_email_title}
-            </h2>
-            <p>{contactUsData.company_email_body}</p>
+            <h2 className="text-2xl text-custom-blue">อีเมล</h2>
+            <p>{layoutData.email}</p>
           </div>
           <div className="flex justify-center lg:justify-start gap-4 h-fit pt-3">
-            {socialMedias.map((socialMedia, index) => (
-              <Link
-                key={index}
-                href={socialMedia.url || "/"}
-                target="_blank"
-                className="h-fit"
-              >
-                <Image
-                  src={`/images/${socialMedia.image.name}`}
-                  alt={socialMedia.platform || "Social Media"}
-                  width={35}
-                  height={35}
-                />
-              </Link>
-            ))}
+            <a
+              href={layoutData.facebook_link || "/"}
+              target="_blank"
+              className="h-fit"
+            >
+              <img
+                src={"/Facebook.png"}
+                alt={"Facebook Icon"}
+                width={35}
+                height={35}
+              />
+            </a>
+            <a
+              href={layoutData.line_link || "/"}
+              target="_blank"
+              className="h-fit"
+            >
+              <img src={"/LINE.png"} alt={"LINE Icon"} width={35} height={35} />
+            </a>
           </div>
         </div>
         <div className="lg:col-span-2">
           <Card>
             <CardHeader>
-              <CardTitle>{contactUsData.message_title}</CardTitle>
+              <CardTitle>ส่งข้อความหาเรา</CardTitle>
               <CardDescription>
-                {contactUsData.message_description}
+                ติดต่อเราทันทีเพื่อรับบริการที่รวดเร็วที่สุด!
+                เราพร้อมรับฟังและให้คำปรึกษาทุกข้อสงสัยของคุณ
               </CardDescription>
             </CardHeader>
             <CardContent>
