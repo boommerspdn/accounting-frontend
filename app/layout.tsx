@@ -7,15 +7,15 @@ import "./globals.css";
 
 const anuphan = Anuphan({ subsets: ["latin"] });
 
-// export async function generateMetadata(): Promise<Metadata> {
-//   const layout = await fetchLayoutData();
+export async function generateMetadata(): Promise<Metadata> {
+  const layout = await fetchLayoutData();
 
-//   return {
-//     icons: {
-//       icon: `${layout.logo.url}`,
-//     },
-//   };
-// }
+  return {
+    icons: {
+      icon: `${process.env.NEXT_PUBLIC_API_URL}${layout.logo.url}`,
+    },
+  };
+}
 
 export default async function RootLayout({
   children,
