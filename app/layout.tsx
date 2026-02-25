@@ -4,6 +4,7 @@ import { fetchLayoutData } from "@/lib/data";
 import type { Metadata } from "next";
 import { Anuphan } from "next/font/google";
 import "./globals.css";
+import { getImageSrc } from "@/lib/utils";
 
 const anuphan = Anuphan({ subsets: ["latin"] });
 
@@ -12,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     icons: {
-      icon: `${process.env.NEXT_PUBLIC_API_URL}${layout.logo.url}`,
+      icon: getImageSrc(layout.logo.url),
     },
   };
 }

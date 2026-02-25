@@ -52,7 +52,7 @@ const RichText = ({ data, className, listSpaceClass }: RictTextProps) => {
             return (
               <div className="relative mx-auto my-3 rounded-sm">
                 <img
-                  src={`${image.url}`}
+                  src={image.url}
                   alt={image.alternativeText || "Image for paragraph"}
                   className="object-contain"
                   height={"auto"}

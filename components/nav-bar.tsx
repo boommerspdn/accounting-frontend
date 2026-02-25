@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { NameSlug } from "@/app/types";
-import { cn } from "@/lib/utils";
+import { cn, getImageSrc } from "@/lib/utils";
 import { Menu } from "lucide-react";
 import ServiceNav from "./service-nav";
 import SideBar from "./side-bar";
@@ -63,7 +63,7 @@ const NavBar = ({ name, logo, servicesNameSlug }: NavBarProps) => {
         />
         <div className="relative w-[25px] aspect-square">
           <img
-            src={`${process.env.NEXT_PUBLIC_API_URL}${logo.url}`}
+            src={getImageSrc(logo.url)}
             alt={logo.alternativeText || "Logo"}
             className="w-full"
           />

@@ -1,6 +1,7 @@
 import Header from "@/components/header";
 import RichText from "@/components/rich-text";
 import { fetchAboutData } from "@/lib/data";
+import { getImageSrc } from "@/lib/utils";
 import { Metadata } from "next";
 import Image from "next/image";
 import qs from "qs";
@@ -60,7 +61,7 @@ const AboutUs = async () => {
           <div className="absolute lg:-top-28 lg:ms-[2.25rem] w-full max-w-lg lg:max-w-none lg:w-[90%] aspect-[3/2] md:mx-auto md:inset-0">
             <div className="relative w-full h-full">
               <img
-                src={`${process.env.NEXT_PUBLIC_API_URL}${aboutUsData.header_image.url}`}
+                src={getImageSrc(aboutUsData.header_image.url)}
                 alt={aboutUsData.header_image.alternativeText || "Header Image"}
                 className="rounded-3xl shadow-2xl object-cover w-full h-full"
               />

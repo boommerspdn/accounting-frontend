@@ -8,7 +8,6 @@ import SecondSection from "./components/second-section";
 import ThirdSection from "./components/third-section";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const layoutData = await fetchLayoutData();
   const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
   const query = qs.stringify(
     {
@@ -42,9 +41,6 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: meta.data.seo.title,
     description: meta.data.seo.description,
-    icons: {
-      icon: `${process.env.NEXT_PUBLIC_API_URL}${layoutData.logo.url}`,
-    },
   };
 }
 

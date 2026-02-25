@@ -1,4 +1,5 @@
 import { NameSlug } from "@/app/types";
+import { getImageSrc } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -31,7 +32,7 @@ const Footer = async ({
             <h1 className="text-xl">ข้อมูลบริษัท</h1>
             <div className="flex gap-2">
               <img
-                src={`${process.env.NEXT_PUBLIC_API_URL}${logo.url}`}
+                src={getImageSrc(logo.url)}
                 alt={logo.alternativeText || "Logo"}
                 width={25}
                 height={25}

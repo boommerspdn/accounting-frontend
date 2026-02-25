@@ -45,3 +45,12 @@ export function flattenAttributes(data: any): any {
 
   return flattened;
 }
+
+export function getImageSrc(url: string | undefined): string {
+  if (!url) return "";
+  const apiUrl =
+    process.env.NEXT_PUBLIC_API_URL === "http://localhost:1337"
+      ? `${process.env.NEXT_PUBLIC_API_URL}${url}`
+      : url;
+  return apiUrl;
+}

@@ -1,3 +1,4 @@
+import { getImageSrc } from "@/lib/utils";
 import Image from "next/image";
 
 interface SecondSectionProps {
@@ -20,7 +21,7 @@ const SecondSection = ({
           <div className="relative w-full sm:w-3/4 md:w-full aspect-[3/2]">
             <img
               className="object-cover rounded"
-              src={`${process.env.NEXT_PUBLIC_API_URL}${image_url}`}
+              src={getImageSrc(image_url)}
               alt={alt || "Why you should work with us"}
             />
           </div>
