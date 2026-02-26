@@ -63,32 +63,34 @@ export default async function RootLayout({
   };
 
   return (
-    <html lang="en">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
-        }}
-      />
-      <body className={anuphan.className}>
-        <NavBar
-          name={layoutData.name}
-          logo={layoutData.logo}
-          servicesNameSlug={layoutData.services}
-        />
-        {children}
-        <Footer
-          company_address={layoutData.address}
-          company_email={layoutData.email}
-          company_phone_number={layoutData.phone}
-          copyright={layoutData.copyright}
-          facebook_link={layoutData.facebook_link}
-          line_link={layoutData.line_link}
-          logo={layoutData.logo}
-          company_name={layoutData.name}
-          servicesNameSlug={layoutData.services}
-        />
-      </body>
-    </html>
+    <>
+      <html lang="en">
+        <body className={anuphan.className}>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{
+              __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+            }}
+          />
+          <NavBar
+            name={layoutData.name}
+            logo={layoutData.logo}
+            servicesNameSlug={layoutData.services}
+          />
+          {children}
+          <Footer
+            company_address={layoutData.address}
+            company_email={layoutData.email}
+            company_phone_number={layoutData.phone}
+            copyright={layoutData.copyright}
+            facebook_link={layoutData.facebook_link}
+            line_link={layoutData.line_link}
+            logo={layoutData.logo}
+            company_name={layoutData.name}
+            servicesNameSlug={layoutData.services}
+          />
+        </body>
+      </html>
+    </>
   );
 }
