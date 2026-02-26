@@ -91,7 +91,7 @@ const Footer = async ({
               <img src="/Facebook.png" alt="Facebook" width={35} height={35} />
             </a>
             <a href={line_link || "/"} target="_blank" className="w-fit">
-              <img src="/Line.png" alt="Line" width={35} height={35} />
+              <img src="/LINE.png" alt="Line" width={35} height={35} />
             </a>
           </div>
         </div>

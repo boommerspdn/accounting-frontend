@@ -1,14 +1,17 @@
 import { MetadataRoute } from "next";
 import { fetchLayoutData } from "@/lib/data";
-import { LayoutData } from "./types";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+  // Use a fallback to avoid "undefined" in the XML if the env var is missing during build
+  const baseUrl = (
+    process.env.NEXT_PUBLIC_DOMAIN_URL || "https://fastontime.co.th"
+  ).replace(/\/$/, "");
 
-  const layout: LayoutData = await fetchLayoutData();
-  const services = layout.services.filter((service) => service.slug);
-  const serviceUrls = services.map((service) => ({
-    url: `${baseUrl}/services/${service.slug}`,
+  const layout = await fetchLayoutData();
+  const services = layout.services.filter((service: any) => service.slug);
+
+  const serviceUrls = services.map((service: any) => ({
+    url: `${baseUrl}/services/${service.slug}/`, // Added trailing slash
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
     priority: 1,
@@ -16,19 +19,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [
     {
-      url: baseUrl as string,
+      url: `${baseUrl}/`, // Home always needs a slash
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 1,
     },
     {
-      url: `${baseUrl}/contact-us`,
+      url: `${baseUrl}/contact-us/`, // Added trailing slash
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/about-us`,
+      url: `${baseUrl}/about-us/`, // Added trailing slash
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.5,
