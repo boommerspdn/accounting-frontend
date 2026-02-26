@@ -40,7 +40,7 @@ const FormSchema = z.object({
   message: z.string().min(1, "ข้อความต้องมีอย่างน้อย 1 ตัวอักษร"),
 });
 
-const ContactForm = () => {
+const ContactForm = ({ emailToRecieve }: { emailToRecieve: string }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -56,14 +56,36 @@ const ContactForm = () => {
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     setIsSubmitting(true);
+    const emailBody = {
+      to: emailToRecieve,
+      // from: "FAST ON TIME ACCOUNTING<contact@fastontime.co.th>",
+      subject: "ข้อความใหม่จาก FAST ON TIME ACCOUNTING",
+      html: `
+      ${data.company ? `<p>${data.company}</p>` : ""}
+      <p>ชื่อ : ${data.name}</p>
+      <p>อีเมล : ${data.email}</p>
+      <p>เบอร์โทรศัพท์ : ${data.phone}</p>
+      <hr>
+      <p>${data.message}</p>
+      `,
+    };
     try {
-      await fetch(`/api/send`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-      setIsSubmitting(false);
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/contact`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.NEXT_PUBLIC_EMAIL_TOKEN}`,
+          },
+          body: JSON.stringify(emailBody),
+        },
+      );
+      if (!res.ok) {
+        throw new Error();
+      }
       form.reset();
+      setIsSubmitting(false);
       toast.success("ส่งอีเมลสำเร็จ");
     } catch (e) {
       setIsSubmitting(false);

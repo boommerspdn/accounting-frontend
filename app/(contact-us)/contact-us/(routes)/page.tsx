@@ -107,7 +107,7 @@ const ContactUs = async () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <ContactForm />
+              <ContactForm emailToRecieve={contactUsData.email_to_receive} />
             </CardContent>
           </Card>
         </div>
