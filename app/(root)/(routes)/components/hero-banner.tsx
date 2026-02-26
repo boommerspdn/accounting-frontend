@@ -1,5 +1,6 @@
 import { getImageSrc } from "@/lib/utils";
 import Image from "next/image";
+import Link from "next/link";
 
 interface HeroBannerProps {
   url: string;
@@ -25,9 +26,11 @@ const HeroBanner = ({
         <div className="text-white text-lg lg:text-xl text-center z-30">
           {description}
         </div>
-        <button className="py-3 px-10 rounded-2xl bg-[#FFC940] font-bold md:text-lg cursor-pointer z-30">
-          {button}
-        </button>
+        <Link href="/contact-us" className="z-30">
+          <button className="py-3 px-10 rounded-2xl bg-[#FFC940] font-bold md:text-lg cursor-pointer z-30">
+            {button}
+          </button>
+        </Link>
       </div>
       <div className="absolute w-full h-full bg-black -z-40 opacity-70 " />
       <Image

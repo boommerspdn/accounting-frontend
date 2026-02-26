@@ -225,3 +225,40 @@ export async function fetchContactData() {
 
   return contactData.data;
 }
+
+export async function fetchHomeMetadata(): Promise<{
+  title: string;
+  description: string;
+}> {
+  const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
+  const query = qs.stringify(
+    {
+      fields: ["id"],
+      populate: {
+        seo: {
+          fields: ["id", "title", "description"],
+        },
+      },
+    },
+    {
+      encodeValuesOnly: true,
+    },
+  );
+
+  const url = new URL(`/api/home-page?${query}`, baseUrl);
+
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+    },
+    cache: "force-cache",
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to fetch service by slug");
+  }
+
+  const meta = await res.json();
+
+  return meta.data.seo;
+}

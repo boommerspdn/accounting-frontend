@@ -46,6 +46,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: meta.data.seo.title,
     description: meta.data.seo.description,
+    alternates: { canonical: "/contact-us" },
   };
 }
 

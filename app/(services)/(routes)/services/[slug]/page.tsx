@@ -54,7 +54,7 @@ export async function generateMetadata(
     title: meta.data[0].seo.title,
     description: meta.data[0].seo.description,
     alternates: {
-      canonical: `${process.env.NEXT_PUBLIC_API_URL}/services/${params.slug}`,
+      canonical: `/services/${params.slug}`,
     },
   };
 }

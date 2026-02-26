@@ -24,6 +24,7 @@ const Footer = async ({
   copyright: string;
   servicesNameSlug: NameSlug[];
 }) => {
+  const currentYear = new Date().getFullYear();
   return (
     <div className="bg-[#E9E9E9] border-border border-t-[1px]">
       <div className="container flex flex-col justify-between h-full pb-4">
@@ -96,7 +97,7 @@ const Footer = async ({
           </div>
         </div>
         <p className="text-center text-sm sm:text-base">
-          Copyright {new Date().getFullYear()} {copyright}
+          Copyright {currentYear} {copyright}
         </p>
       </div>
     </div>

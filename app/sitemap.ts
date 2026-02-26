@@ -10,9 +10,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const layout = await fetchLayoutData();
   const services = layout.services.filter((service: any) => service.slug);
 
+  const currentDate = new Date();
+
   const serviceUrls = services.map((service: any) => ({
     url: `${baseUrl}/services/${service.slug}/`, // Added trailing slash
-    lastModified: new Date(),
+    lastModified: currentDate,
     changeFrequency: "monthly" as const,
     priority: 1,
   }));
@@ -20,19 +22,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return [
     {
       url: `${baseUrl}/`, // Home always needs a slash
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency: "monthly",
       priority: 1,
     },
     {
       url: `${baseUrl}/contact-us/`, // Added trailing slash
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency: "monthly",
       priority: 0.8,
     },
     {
       url: `${baseUrl}/about-us/`, // Added trailing slash
-      lastModified: new Date(),
+      lastModified: currentDate,
       changeFrequency: "monthly",
       priority: 0.5,
     },
