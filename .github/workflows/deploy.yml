@@ -4,12 +4,10 @@ on:
   repository_dispatch:
     types: [strapi-publish]
 
-  # Optional (so you can still push manually)
   push:
     branches:
       - main
 
-  # Optional manual trigger button
   workflow_dispatch:
 
 concurrency:
@@ -19,6 +17,10 @@ concurrency:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
+    # ✅ ENV available to ALL steps
+    env:
+      NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
 
     steps:
       - name: Checkout Repository
@@ -35,8 +37,6 @@ jobs:
 
       - name: Debug ENV
         run: echo $NEXT_PUBLIC_API_URL
-        env:
-          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
 
       - name: Build Project
         run: npm run build
