@@ -4,6 +4,7 @@ import { NameSlug, LayoutData, HomePageData } from "../app/types";
 
 export async function fetchLayoutData(): Promise<LayoutData> {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
+  console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
 
   // Fetch layout data
   const layoutQuery = qs.stringify(
@@ -19,9 +20,6 @@ export async function fetchLayoutData(): Promise<LayoutData> {
     },
   );
   const layoutUrl = new URL(`/api/layout?${layoutQuery}`, baseUrl);
-
-  console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
-  console.log("API TOKEN:", process.env.NEXT_PUBLIC_API_TOKEN);
 
   const layoutRes = await fetch(layoutUrl, {
     headers: {
