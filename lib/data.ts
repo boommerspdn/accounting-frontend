@@ -20,6 +20,9 @@ export async function fetchLayoutData(): Promise<LayoutData> {
   );
   const layoutUrl = new URL(`/api/layout?${layoutQuery}`, baseUrl);
 
+  console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
+  console.log("API TOKEN:", process.env.NEXT_PUBLIC_API_TOKEN);
+
   const layoutRes = await fetch(layoutUrl, {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
