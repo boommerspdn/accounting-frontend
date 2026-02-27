@@ -35,7 +35,7 @@ jobs:
 
       - name: Debug ENV
         run: echo $NEXT_PUBLIC_API_URL
-        env: |
+        env:
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
 
       - name: Build Project
