@@ -33,6 +33,11 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
+      - name: Debug ENV
+        run: echo $NEXT_PUBLIC_API_URL
+        env: |
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+
       - name: Build Project
         run: npm run build
 
