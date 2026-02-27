@@ -2,8 +2,11 @@ import { Metadata, ResolvingMetadata } from "next";
 
 import Header from "@/components/header";
 import RichText from "@/components/rich-text";
-import { fetchLayoutData, fetchServiceBySlug } from "@/lib/data";
-import qs from "qs";
+import {
+  fetchLayoutData,
+  fetchServiceBySlug,
+  fetchServiceMetadata,
+} from "@/lib/data";
 import ServiceNotFound from "./components/service-not-found";
 import ServicesList from "./components/services-list";
 
@@ -15,44 +18,11 @@ export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
-  const query = qs.stringify(
-    {
-      filters: {
-        slug: {
-          $eq: params.slug,
-        },
-      },
-      fields: ["id"], // Only returns the ID of the main entry
-      populate: {
-        seo: {
-          fields: ["id", "title", "description"], // Specific fields from the SEO component
-        },
-      },
-    },
-    {
-      encodeValuesOnly: true,
-    },
-  );
-
-  const url = new URL(`/api/services?${query}`, baseUrl);
-
-  const res = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-    },
-    cache: "force-cache",
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch service by slug");
-  }
-
-  const meta = await res.json();
+  const seo = await fetchServiceMetadata(params.slug);
 
   return {
-    title: meta.data[0].seo.title,
-    description: meta.data[0].seo.description,
+    title: seo.title,
+    description: seo.description,
     alternates: {
       canonical: `/services/${params.slug}`,
     },

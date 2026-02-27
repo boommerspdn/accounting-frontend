@@ -1,11 +1,11 @@
 import { URL } from "url";
 import qs from "qs";
+import { cache } from "react";
 import { NameSlug, LayoutData, HomePageData } from "../app/types";
 
-export async function fetchLayoutData(): Promise<LayoutData> {
+export const fetchLayoutData = cache(async (): Promise<LayoutData> => {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
 
-  // Fetch layout data
   const layoutQuery = qs.stringify(
     {
       populate: {
@@ -14,9 +14,7 @@ export async function fetchLayoutData(): Promise<LayoutData> {
         },
       },
     },
-    {
-      encodeValuesOnly: true,
-    },
+    { encodeValuesOnly: true },
   );
   const layoutUrl = new URL(`/api/layout?${layoutQuery}`, baseUrl);
 
@@ -34,12 +32,8 @@ export async function fetchLayoutData(): Promise<LayoutData> {
   const layoutData = await layoutRes.json();
 
   const servicesQuery = qs.stringify(
-    {
-      fields: ["name", "slug"],
-    },
-    {
-      encodeValuesOnly: true,
-    },
+    { fields: ["name", "slug"] },
+    { encodeValuesOnly: true },
   );
   const servicesUrl = new URL(`/api/services?${servicesQuery}`, baseUrl);
 
@@ -55,7 +49,6 @@ export async function fetchLayoutData(): Promise<LayoutData> {
   }
 
   const servicesData = await servicesRes.json();
-
   const services: NameSlug[] = servicesData.data;
 
   const layout: LayoutData = {
@@ -70,16 +63,15 @@ export async function fetchLayoutData(): Promise<LayoutData> {
       url: layoutData.data.logo.url,
       alternativeText: layoutData.data.logo.alternativeText,
     },
-    services: services,
+    services,
   };
 
   return layout;
-}
+});
 
-export async function fetchHomeData(): Promise<HomePageData> {
+export const fetchHomeData = cache(async (): Promise<HomePageData> => {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
 
-  // Fetch home data
   const homeQuery = qs.stringify(
     {
       populate: {
@@ -88,9 +80,7 @@ export async function fetchHomeData(): Promise<HomePageData> {
         promotion_ads: { fields: ["url", "alternativeText"] },
       },
     },
-    {
-      encodeValuesOnly: true,
-    },
+    { encodeValuesOnly: true },
   );
   const homeUrl = new URL(`/api/home-page?${homeQuery}`, baseUrl);
 
@@ -108,12 +98,8 @@ export async function fetchHomeData(): Promise<HomePageData> {
   const homeData = await homeRes.json();
 
   const servicesQuery = qs.stringify(
-    {
-      fields: ["name", "slug", "description"],
-    },
-    {
-      encodeValuesOnly: true,
-    },
+    { fields: ["name", "slug", "description"] },
+    { encodeValuesOnly: true },
   );
   const servicesUrl = new URL(`/api/services?${servicesQuery}`, baseUrl);
 
@@ -136,22 +122,18 @@ export async function fetchHomeData(): Promise<HomePageData> {
   };
 
   return homePageData;
-}
+});
 
 // fetch service by slug for service page
-export async function fetchServiceBySlug(slug: string) {
+export const fetchServiceBySlug = cache(async (slug: string) => {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
   const query = qs.stringify(
     {
       filters: {
-        slug: {
-          $eq: slug,
-        },
+        slug: { $eq: slug },
       },
     },
-    {
-      encodeValuesOnly: true,
-    },
+    { encodeValuesOnly: true },
   );
 
   const url = new URL(`/api/services?${query}`, baseUrl);
@@ -168,23 +150,19 @@ export async function fetchServiceBySlug(slug: string) {
   }
 
   const data = await res.json();
-
   return data.data[0];
-}
+});
 
-export async function fetchAboutData() {
+export const fetchAboutData = cache(async () => {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
 
-  // Fetch about data
   const aboutQuery = qs.stringify(
     {
       populate: {
         header_image: { fields: ["url", "alternativeText"] },
       },
     },
-    {
-      encodeValuesOnly: true,
-    },
+    { encodeValuesOnly: true },
   );
   const aboutUrl = new URL(`/api/about-page?${aboutQuery}`, baseUrl);
 
@@ -200,14 +178,12 @@ export async function fetchAboutData() {
   }
 
   const aboutData = await aboutRes.json();
-
   return aboutData.data;
-}
+});
 
-export async function fetchContactData() {
+export const fetchContactData = cache(async () => {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
 
-  // Fetch contact data
   const contactUrl = new URL(`/api/contact-page`, baseUrl);
 
   const contactRes = await fetch(contactUrl, {
@@ -222,43 +198,132 @@ export async function fetchContactData() {
   }
 
   const contactData = await contactRes.json();
-
   return contactData.data;
-}
+});
 
-export async function fetchHomeMetadata(): Promise<{
-  title: string;
-  description: string;
-}> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
-  const query = qs.stringify(
-    {
-      fields: ["id"],
-      populate: {
-        seo: {
-          fields: ["id", "title", "description"],
+export const fetchHomeMetadata = cache(
+  async (): Promise<{ title: string; description: string }> => {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
+    const query = qs.stringify(
+      {
+        fields: ["id"],
+        populate: {
+          seo: { fields: ["id", "title", "description"] },
         },
       },
-    },
-    {
-      encodeValuesOnly: true,
-    },
-  );
+      { encodeValuesOnly: true },
+    );
 
-  const url = new URL(`/api/home-page?${query}`, baseUrl);
+    const url = new URL(`/api/home-page?${query}`, baseUrl);
 
-  const res = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-    },
-    cache: "force-cache",
-  });
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+      },
+      cache: "force-cache",
+    });
 
-  if (!res.ok) {
-    throw new Error("Failed to fetch service by slug");
-  }
+    if (!res.ok) {
+      throw new Error("Failed to fetch home metadata");
+    }
 
-  const meta = await res.json();
+    const meta = await res.json();
+    return meta.data.seo;
+  },
+);
 
-  return meta.data.seo;
-}
+export const fetchAboutMetadata = cache(
+  async (): Promise<{ title: string; description: string }> => {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
+    const query = qs.stringify(
+      {
+        fields: ["id"],
+        populate: {
+          seo: { fields: ["id", "title", "description"] },
+        },
+      },
+      { encodeValuesOnly: true },
+    );
+
+    const url = new URL(`/api/about-page?${query}`, baseUrl);
+
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+      },
+      cache: "force-cache",
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch about page metadata");
+    }
+
+    const meta = await res.json();
+    return meta.data.seo;
+  },
+);
+
+export const fetchContactMetadata = cache(
+  async (): Promise<{ title: string; description: string }> => {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
+    const query = qs.stringify(
+      {
+        fields: ["id"],
+        populate: {
+          seo: { fields: ["id", "title", "description"] },
+        },
+      },
+      { encodeValuesOnly: true },
+    );
+
+    const url = new URL(`/api/contact-page?${query}`, baseUrl);
+
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+      },
+      cache: "force-cache",
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch contact page metadata");
+    }
+
+    const meta = await res.json();
+    return meta.data.seo;
+  },
+);
+
+export const fetchServiceMetadata = cache(
+  async (slug: string): Promise<{ title: string; description: string }> => {
+    const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
+    const query = qs.stringify(
+      {
+        filters: {
+          slug: { $eq: slug },
+        },
+        fields: ["id"],
+        populate: {
+          seo: { fields: ["id", "title", "description"] },
+        },
+      },
+      { encodeValuesOnly: true },
+    );
+
+    const url = new URL(`/api/services?${query}`, baseUrl);
+
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+      },
+      cache: "force-cache",
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch service metadata");
+    }
+
+    const meta = await res.json();
+    return meta.data[0].seo;
+  },
+);

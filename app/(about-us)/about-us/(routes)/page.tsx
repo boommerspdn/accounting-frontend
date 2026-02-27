@@ -1,45 +1,15 @@
 import Header from "@/components/header";
 import RichText from "@/components/rich-text";
-import { fetchAboutData } from "@/lib/data";
+import { fetchAboutData, fetchAboutMetadata } from "@/lib/data";
 import { getImageSrc } from "@/lib/utils";
 import { Metadata } from "next";
-import Image from "next/image";
-import qs from "qs";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
-  const query = qs.stringify(
-    {
-      fields: ["id"],
-      populate: {
-        seo: {
-          fields: ["id", "title", "description"],
-        },
-      },
-    },
-    {
-      encodeValuesOnly: true,
-    },
-  );
-
-  const url = new URL(`/api/about-page?${query}`, baseUrl);
-
-  const res = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
-    },
-    cache: "force-cache",
-  });
-
-  if (!res.ok) {
-    throw new Error("Failed to fetch about page metadata");
-  }
-
-  const meta = await res.json();
+  const seo = await fetchAboutMetadata();
 
   return {
-    title: meta.data.seo.title,
-    description: meta.data.seo.description,
+    title: seo.title,
+    description: seo.description,
     alternates: { canonical: "/about-us" },
   };
 }
