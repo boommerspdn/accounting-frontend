@@ -21,7 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     title: seo.title,
     description: seo.description,
-    alternates: { canonical: "/contact-us" },
+    alternates: { canonical: "/contact-us/" },
   };
 }
 

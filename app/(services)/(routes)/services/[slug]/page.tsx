@@ -24,7 +24,7 @@ export async function generateMetadata(
     title: seo.title,
     description: seo.description,
     alternates: {
-      canonical: `/services/${params.slug}`,
+      canonical: `/services/${params.slug}/`,
     },
   };
 }
