@@ -44,10 +44,10 @@ jobs:
       # --- NEW STEP: Wake up Strapi before building ---
       - name: Wake up Strapi (Cold Start Fix)
         run: |
-          echo "Checking if Strapi is awake at $NEXT_PUBLIC_API_URL..."
+          echo "Checking if Strapi is awake at ${{ secrets.NEXT_PUBLIC_API_URL }}..."
           # Tries to reach the API 15 times with 5-second intervals (75 seconds total)
           for i in {1..15}; do
-            if curl -s --head --request GET "$NEXT_PUBLIC_API_URL" | grep "200 OK" > /dev/null; then
+            if curl -s --head --request GET ${{ secrets.NEXT_PUBLIC_API_URL }} | grep "200 OK" > /dev/null; then
               echo "Strapi is awake and responding!"
               exit 0
             fi
@@ -56,9 +56,6 @@ jobs:
           done
           echo "Error: Strapi failed to wake up in time. Build cancelled."
           exit 1
-
-      - name: Debug ENV
-        run: echo $NEXT_PUBLIC_API_URL
 
       - name: Build Project
         run: npm run build
