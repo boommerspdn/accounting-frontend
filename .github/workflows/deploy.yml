@@ -41,23 +41,24 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      - name: Wake up Strapi
+      - name: Wake up Strapi (Admin Check)
         run: |
-          echo "Pinging Strapi at $NEXT_PUBLIC_API_URL..."
+          echo "Pinging Strapi Admin at ${NEXT_PUBLIC_API_URL}/admin"
           for i in {1..20}; do
-            # -s: silent, -o /dev/null: don't print body, -w: output the status code
-            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$NEXT_PUBLIC_API_URL")
+            # Get the HTTP status code
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "${NEXT_PUBLIC_API_URL}/admin")
             
-            # If status is 200 (OK), 401 (Unauthorized), or 404 (Not Found), the server is AWAKE.
-            if [[ "$STATUS" == "200" || "$STATUS" == "404" || "$STATUS" == "401" ]]; then
-              echo "Strapi is awake! (Status: $STATUS)"
+            echo "Attempt $i: Received Status Code $STATUS"
+
+            # If it's 200, the server is fully booted
+            if [ "$STATUS" -eq 200 ]; then
+              echo "Strapi is awake!"
               exit 0
             fi
             
-            echo "Attempt $i: Strapi returned $STATUS. Waiting 5s..."
             sleep 5
           done
-          echo "Error: Strapi timed out after 100 seconds."
+          echo "Error: Strapi Admin failed to respond with 200 after 100 seconds."
           exit 1
 
       - name: Build Project
