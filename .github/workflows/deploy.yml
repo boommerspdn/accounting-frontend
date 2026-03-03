@@ -41,20 +41,23 @@ jobs:
       - name: Install Dependencies
         run: npm ci
 
-      # --- NEW STEP: Wake up Strapi before building ---
-      - name: Wake up Strapi (Cold Start Fix)
+      - name: Wake up Strapi
         run: |
-          echo "Checking if Strapi is awake at ${{ secrets.NEXT_PUBLIC_API_URL }}..."
-          # Tries to reach the API 15 times with 5-second intervals (75 seconds total)
-          for i in {1..15}; do
-            if curl -s --head --request GET ${{ secrets.NEXT_PUBLIC_API_URL }} | grep "200 OK" > /dev/null; then
-              echo "Strapi is awake and responding!"
+          echo "Pinging Strapi at $NEXT_PUBLIC_API_URL..."
+          for i in {1..20}; do
+            # -s: silent, -o /dev/null: don't print body, -w: output the status code
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$NEXT_PUBLIC_API_URL")
+            
+            # If status is 200 (OK), 401 (Unauthorized), or 404 (Not Found), the server is AWAKE.
+            if [[ "$STATUS" == "200" || "$STATUS" == "404" || "$STATUS" == "401" ]]; then
+              echo "Strapi is awake! (Status: $STATUS)"
               exit 0
             fi
-            echo "Attempt $i: Strapi is still sleeping. Waiting 5s..."
+            
+            echo "Attempt $i: Strapi returned $STATUS. Waiting 5s..."
             sleep 5
           done
-          echo "Error: Strapi failed to wake up in time. Build cancelled."
+          echo "Error: Strapi timed out after 100 seconds."
           exit 1
 
       - name: Build Project
