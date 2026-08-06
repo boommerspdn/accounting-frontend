@@ -123,7 +123,7 @@ const ContactForm = ({ emailToRecieve }: { emailToRecieve: string }) => {
               name="email"
               render={({ field }) => (
                 <FormItem className="col-span-1">
-                  <FormLabel>อีเมล</FormLabel>
+                  <FormLabel>อีเมล (recieved = {emailToRecieve})</FormLabel>
                   <FormControl>
                     <Input
                       {...field}

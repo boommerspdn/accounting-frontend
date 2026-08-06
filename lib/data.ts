@@ -16,13 +16,13 @@ export const fetchLayoutData = cache(async (): Promise<LayoutData> => {
     },
     { encodeValuesOnly: true },
   );
-  const layoutUrl = new URL(`/api/layout?${layoutQuery}`, baseUrl);
+  const layoutUrl = new URL(`/api/fastontime-layout?${layoutQuery}`, baseUrl);
 
   const layoutRes = await fetch(layoutUrl, {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
     },
-    cache: "force-cache",
+    cache: "no-store",
   });
 
   if (!layoutRes.ok) {
@@ -35,13 +35,13 @@ export const fetchLayoutData = cache(async (): Promise<LayoutData> => {
     { fields: ["name", "slug"] },
     { encodeValuesOnly: true },
   );
-  const servicesUrl = new URL(`/api/services?${servicesQuery}`, baseUrl);
+  const servicesUrl = new URL(`/api/fastontime-services?${servicesQuery}`, baseUrl);
 
   const servicesRes = await fetch(servicesUrl, {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
     },
-    cache: "force-cache",
+    cache: "no-store",
   });
 
   if (!servicesRes.ok) {
@@ -82,13 +82,13 @@ export const fetchHomeData = cache(async (): Promise<HomePageData> => {
     },
     { encodeValuesOnly: true },
   );
-  const homeUrl = new URL(`/api/home-page?${homeQuery}`, baseUrl);
+  const homeUrl = new URL(`/api/fastontime-home-page?${homeQuery}`, baseUrl);
 
   const homeRes = await fetch(homeUrl, {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
     },
-    cache: "force-cache",
+    cache: "no-store",
   });
 
   if (!homeRes.ok) {
@@ -101,13 +101,13 @@ export const fetchHomeData = cache(async (): Promise<HomePageData> => {
     { fields: ["name", "slug", "description"] },
     { encodeValuesOnly: true },
   );
-  const servicesUrl = new URL(`/api/services?${servicesQuery}`, baseUrl);
+  const servicesUrl = new URL(`/api/fastontime-services?${servicesQuery}`, baseUrl);
 
   const servicesRes = await fetch(servicesUrl, {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
     },
-    cache: "force-cache",
+    cache: "no-store",
   });
 
   if (!servicesRes.ok) {
@@ -136,13 +136,13 @@ export const fetchServiceBySlug = cache(async (slug: string) => {
     { encodeValuesOnly: true },
   );
 
-  const url = new URL(`/api/services?${query}`, baseUrl);
+  const url = new URL(`/api/fastontime-services?${query}`, baseUrl);
 
   const res = await fetch(url, {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
     },
-    cache: "force-cache",
+    cache: "no-store",
   });
 
   if (!res.ok) {
@@ -164,13 +164,13 @@ export const fetchAboutData = cache(async () => {
     },
     { encodeValuesOnly: true },
   );
-  const aboutUrl = new URL(`/api/about-page?${aboutQuery}`, baseUrl);
+  const aboutUrl = new URL(`/api/fastontime-about-page?${aboutQuery}`, baseUrl);
 
   const aboutRes = await fetch(aboutUrl, {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
     },
-    cache: "force-cache",
+    cache: "no-store",
   });
 
   if (!aboutRes.ok) {
@@ -184,13 +184,13 @@ export const fetchAboutData = cache(async () => {
 export const fetchContactData = cache(async () => {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
 
-  const contactUrl = new URL(`/api/contact-page`, baseUrl);
+  const contactUrl = new URL(`/api/fastontime-contact-page`, baseUrl);
 
   const contactRes = await fetch(contactUrl, {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
     },
-    cache: "force-cache",
+    cache: "no-store",
   });
 
   if (!contactRes.ok) {
@@ -214,13 +214,13 @@ export const fetchHomeMetadata = cache(
       { encodeValuesOnly: true },
     );
 
-    const url = new URL(`/api/home-page?${query}`, baseUrl);
+    const url = new URL(`/api/fastontime-home-page?${query}`, baseUrl);
 
     const res = await fetch(url, {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
       },
-      cache: "force-cache",
+      cache: "no-store",
     });
 
     if (!res.ok) {
@@ -245,13 +245,13 @@ export const fetchAboutMetadata = cache(
       { encodeValuesOnly: true },
     );
 
-    const url = new URL(`/api/about-page?${query}`, baseUrl);
+    const url = new URL(`/api/fastontime-about-page?${query}`, baseUrl);
 
     const res = await fetch(url, {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
       },
-      cache: "force-cache",
+      cache: "no-store",
     });
 
     if (!res.ok) {
@@ -276,13 +276,13 @@ export const fetchContactMetadata = cache(
       { encodeValuesOnly: true },
     );
 
-    const url = new URL(`/api/contact-page?${query}`, baseUrl);
+    const url = new URL(`/api/fastontime-contact-page?${query}`, baseUrl);
 
     const res = await fetch(url, {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
       },
-      cache: "force-cache",
+      cache: "no-store",
     });
 
     if (!res.ok) {
@@ -310,13 +310,13 @@ export const fetchServiceMetadata = cache(
       { encodeValuesOnly: true },
     );
 
-    const url = new URL(`/api/services?${query}`, baseUrl);
+    const url = new URL(`/api/fastontime-services?${query}`, baseUrl);
 
     const res = await fetch(url, {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
       },
-      cache: "force-cache",
+      cache: "no-store",
     });
 
     if (!res.ok) {
