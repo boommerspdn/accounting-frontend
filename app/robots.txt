@@ -1,4 +1,0 @@
-User-Agent: *
-Allow: /
-
-Sitemap: https://fastontime.co.th/sitemap.xml

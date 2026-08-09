@@ -49,7 +49,9 @@ export const fetchLayoutData = cache(async (): Promise<LayoutData> => {
   }
 
   const servicesData = await servicesRes.json();
-  const services: NameSlug[] = servicesData.data;
+  const services: NameSlug[] = servicesData.data.filter(
+    (service: NameSlug) => typeof service.slug === "string" && service.slug.length > 0,
+  );
 
   const layout: LayoutData = {
     name: layoutData.data.name,

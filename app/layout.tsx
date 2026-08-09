@@ -1,6 +1,7 @@
 import Footer from "@/components/footer";
 import NavBar from "@/components/nav-bar";
 import { fetchHomeMetadata, fetchLayoutData } from "@/lib/data";
+import { JsonLd, localBusinessJsonLd, websiteJsonLd } from "@/lib/structured-data";
 import { getImageSrc } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Anuphan } from "next/font/google";
@@ -42,36 +43,13 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const layoutData = await fetchLayoutData();
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: layoutData.name,
-    logo: layoutData.logo.url,
-    description:
-      "รับทำบัญชีในประเทศไทย กรุงเทพ (Accounting Services in Thailand, Bangkok))",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: layoutData.address,
-      addressLocality: "Bangkok",
-      postalCode: "10330",
-      addressCountry: "TH",
-    },
-    telephone: layoutData.phone,
-    openingHours: "Mo-Sa 08:00-18:00",
-    url: process.env.NEXT_PUBLIC_DOMAIN_URL,
-    sameAs: [layoutData.facebook_link, layoutData.line_link],
-  };
 
   return (
     <>
       <html lang="en">
         <body className={anuphan.className}>
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{
-              __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
-            }}
-          />
+          <JsonLd data={localBusinessJsonLd(layoutData)} />
+          <JsonLd data={websiteJsonLd(layoutData)} />
           <NavBar
             name={layoutData.name}
             logo={layoutData.logo}

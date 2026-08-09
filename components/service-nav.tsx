@@ -17,6 +17,8 @@ interface ServiceNavProps {
 }
 
 const ServiceNav = ({ services }: ServiceNavProps) => {
+  if (services.length === 0) return null;
+
   return (
     <NavigationMenu>
       <NavigationMenuList className="w-fit li-m-0">

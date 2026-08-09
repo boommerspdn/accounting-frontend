@@ -39,27 +39,29 @@ const SideBar = ({
           <Link href={"/"} className="w-fit" onClick={() => setOpen(false)}>
             {home}
           </Link>
-          <div className="flex flex-col space-y-1">
-            <Link
-              href={`/services/${serviceNameAndSlug[0].slug}`}
-              className="w-fit"
-              onClick={() => setOpen(false)}
-            >
-              {serviceNameAndSlug[0].name}
-            </Link>
-            <ul className="flex flex-col gap-1 border-l-[1px] border-border ms-4">
-              {serviceNameAndSlug.map((service) => (
-                <Link
-                  key={service.slug}
-                  href={`/services/${service.slug}`}
-                  className="w-fit ps-2"
-                  onClick={() => setOpen(false)}
-                >
-                  <li className="m-0">{service.name}</li>
-                </Link>
-              ))}
-            </ul>
-          </div>
+          {serviceNameAndSlug.length > 0 && (
+            <div className="flex flex-col space-y-1">
+              <Link
+                href={`/services/${serviceNameAndSlug[0].slug}`}
+                className="w-fit"
+                onClick={() => setOpen(false)}
+              >
+                {serviceNameAndSlug[0].name}
+              </Link>
+              <ul className="flex flex-col gap-1 border-l-[1px] border-border ms-4">
+                {serviceNameAndSlug.map((service) => (
+                  <Link
+                    key={service.slug}
+                    href={`/services/${service.slug}`}
+                    className="w-fit ps-2"
+                    onClick={() => setOpen(false)}
+                  >
+                    <li className="m-0">{service.name}</li>
+                  </Link>
+                ))}
+              </ul>
+            </div>
+          )}
           <Link
             href={"/contact-us"}
             className="w-fit"
