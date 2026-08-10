@@ -1,7 +1,11 @@
 import Footer from "@/components/footer";
 import NavBar from "@/components/nav-bar";
 import { fetchHomeMetadata, fetchLayoutData } from "@/lib/data";
-import { JsonLd, localBusinessJsonLd, websiteJsonLd } from "@/lib/structured-data";
+import {
+  JsonLd,
+  localBusinessJsonLd,
+  websiteJsonLd,
+} from "@/lib/structured-data";
 import { getImageSrc } from "@/lib/utils";
 import type { Metadata } from "next";
 import { Anuphan } from "next/font/google";
@@ -15,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     icons: {
-      icon: getImageSrc(layout.logo.url),
+      icon: getImageSrc(layout.favicon.url),
     },
     metadataBase: new URL(`${process.env.NEXT_PUBLIC_DOMAIN_URL}`),
     robots: "index, follow",

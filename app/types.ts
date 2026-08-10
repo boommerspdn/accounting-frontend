@@ -22,6 +22,7 @@ export interface LayoutData {
   line_link: string;
   copyright: string;
   logo: ImageType;
+  favicon: ImageType;
   services: NameSlug[];
 }
 

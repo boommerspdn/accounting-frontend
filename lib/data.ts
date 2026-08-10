@@ -12,6 +12,9 @@ export const fetchLayoutData = cache(async (): Promise<LayoutData> => {
         logo: {
           fields: ["name", "url", "alternativeText"],
         },
+        favicon: {
+          fields: ["name", "url", "alternativeText"],
+        },
       },
     },
     { encodeValuesOnly: true },
@@ -35,7 +38,10 @@ export const fetchLayoutData = cache(async (): Promise<LayoutData> => {
     { fields: ["name", "slug"] },
     { encodeValuesOnly: true },
   );
-  const servicesUrl = new URL(`/api/fastontime-services?${servicesQuery}`, baseUrl);
+  const servicesUrl = new URL(
+    `/api/fastontime-services?${servicesQuery}`,
+    baseUrl,
+  );
 
   const servicesRes = await fetch(servicesUrl, {
     headers: {
@@ -50,7 +56,8 @@ export const fetchLayoutData = cache(async (): Promise<LayoutData> => {
 
   const servicesData = await servicesRes.json();
   const services: NameSlug[] = servicesData.data.filter(
-    (service: NameSlug) => typeof service.slug === "string" && service.slug.length > 0,
+    (service: NameSlug) =>
+      typeof service.slug === "string" && service.slug.length > 0,
   );
 
   const layout: LayoutData = {
@@ -64,6 +71,10 @@ export const fetchLayoutData = cache(async (): Promise<LayoutData> => {
     logo: {
       url: layoutData.data.logo.url,
       alternativeText: layoutData.data.logo.alternativeText,
+    },
+    favicon: {
+      url: layoutData.data.favicon.url,
+      alternativeText: layoutData.data.favicon.alternativeText,
     },
     services,
   };
@@ -103,7 +114,10 @@ export const fetchHomeData = cache(async (): Promise<HomePageData> => {
     { fields: ["name", "slug", "description"] },
     { encodeValuesOnly: true },
   );
-  const servicesUrl = new URL(`/api/fastontime-services?${servicesQuery}`, baseUrl);
+  const servicesUrl = new URL(
+    `/api/fastontime-services?${servicesQuery}`,
+    baseUrl,
+  );
 
   const servicesRes = await fetch(servicesUrl, {
     headers: {
