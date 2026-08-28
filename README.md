@@ -43,7 +43,7 @@ This is a Next.js frontend for the accounting website. Follow the instructions b
    ```bash
    npm run dev
    ```
-   The app will be available at [http://localhost:3000](http://localhost:3000).
+   The app will be available at [http://localhost:3001](http://localhost:3001).
 
 ## Scripts
 
@@ -55,6 +55,8 @@ This is a Next.js frontend for the accounting website. Follow the instructions b
 
 - Make sure your Strapi backend is running and accessible from the API URL you provide.
 - Keep your API tokens secure and do not expose them publicly.
+- This app consumes the `fastontime-*` API domain from `../strapi-global`.
+- See `docs/PROJECT.md` for the repo map and `API_ENDPOINTS.md` for endpoint notes.
 
 ---
 

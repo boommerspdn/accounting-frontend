@@ -14,6 +14,8 @@ type Props = {
   params: { slug: string };
 };
 
+export const dynamicParams = false;
+
 export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata,
@@ -41,7 +43,7 @@ export async function generateStaticParams() {
 const ServicePage = async ({ params }: { params: { slug: string } }) => {
   const serviceData = await fetchServiceBySlug(params.slug);
 
-  if (serviceData.length === 0 || serviceData === null) {
+  if (!serviceData) {
     return <ServiceNotFound />;
   }
 

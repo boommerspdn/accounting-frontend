@@ -166,7 +166,7 @@ export const fetchServiceBySlug = cache(async (slug: string) => {
   }
 
   const data = await res.json();
-  return data.data[0];
+  return data.data[0] ?? null;
 });
 
 export const fetchAboutData = cache(async () => {
@@ -340,6 +340,6 @@ export const fetchServiceMetadata = cache(
     }
 
     const meta = await res.json();
-    return meta.data[0].seo;
+    return meta.data[0]?.seo ?? { title: "", description: "" };
   },
 );
