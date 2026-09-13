@@ -13,15 +13,21 @@ import {
   fetchContactMetadata,
   fetchLayoutData,
 } from "@/lib/data";
+import { seoMetadata } from "@/lib/metadata";
 import ContactForm from "./components/contact-form";
 
 export async function generateMetadata(): Promise<Metadata> {
   const seo = await fetchContactMetadata();
 
   return {
-    title: seo.title,
-    description: seo.description,
-    alternates: { canonical: "/contact-us/" },
+    ...seoMetadata(
+      seo,
+      {
+        title: seo.title,
+        description: seo.description,
+      },
+      { path: "/contact-us" }
+    ),
   };
 }
 

@@ -3,6 +3,8 @@ import qs from "qs";
 import { cache } from "react";
 import { NameSlug, LayoutData, HomePageData } from "../app/types";
 
+const strapiCache = process.env.NODE_ENV === "development" ? "no-store" : "force-cache";
+
 export const fetchLayoutData = cache(async (): Promise<LayoutData> => {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
 
@@ -25,7 +27,7 @@ export const fetchLayoutData = cache(async (): Promise<LayoutData> => {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
     },
-    cache: "no-store",
+    cache: strapiCache,
   });
 
   if (!layoutRes.ok) {
@@ -47,7 +49,7 @@ export const fetchLayoutData = cache(async (): Promise<LayoutData> => {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
     },
-    cache: "no-store",
+    cache: strapiCache,
   });
 
   if (!servicesRes.ok) {
@@ -101,7 +103,7 @@ export const fetchHomeData = cache(async (): Promise<HomePageData> => {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
     },
-    cache: "no-store",
+    cache: strapiCache,
   });
 
   if (!homeRes.ok) {
@@ -123,7 +125,7 @@ export const fetchHomeData = cache(async (): Promise<HomePageData> => {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
     },
-    cache: "no-store",
+    cache: strapiCache,
   });
 
   if (!servicesRes.ok) {
@@ -158,7 +160,7 @@ export const fetchServiceBySlug = cache(async (slug: string) => {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
     },
-    cache: "no-store",
+    cache: strapiCache,
   });
 
   if (!res.ok) {
@@ -186,7 +188,7 @@ export const fetchAboutData = cache(async () => {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
     },
-    cache: "no-store",
+    cache: strapiCache,
   });
 
   if (!aboutRes.ok) {
@@ -206,7 +208,7 @@ export const fetchContactData = cache(async () => {
     headers: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
     },
-    cache: "no-store",
+    cache: strapiCache,
   });
 
   if (!contactRes.ok) {
@@ -236,7 +238,7 @@ export const fetchHomeMetadata = cache(
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
       },
-      cache: "no-store",
+      cache: strapiCache,
     });
 
     if (!res.ok) {
@@ -267,7 +269,7 @@ export const fetchAboutMetadata = cache(
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
       },
-      cache: "no-store",
+      cache: strapiCache,
     });
 
     if (!res.ok) {
@@ -298,7 +300,7 @@ export const fetchContactMetadata = cache(
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
       },
-      cache: "no-store",
+      cache: strapiCache,
     });
 
     if (!res.ok) {
@@ -332,7 +334,7 @@ export const fetchServiceMetadata = cache(
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
       },
-      cache: "no-store",
+      cache: strapiCache,
     });
 
     if (!res.ok) {

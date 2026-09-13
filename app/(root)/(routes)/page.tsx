@@ -1,4 +1,5 @@
 import { fetchHomeData, fetchHomeMetadata, fetchLayoutData } from "@/lib/data";
+import { seoMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
 import qs from "qs";
 import FirstSection from "./components/first-section";
@@ -11,9 +12,10 @@ export async function generateMetadata(): Promise<Metadata> {
   const homeMetada = await fetchHomeMetadata();
 
   return {
-    title: homeMetada.title,
-    description: homeMetada.description,
-    alternates: { canonical: "//" },
+    ...seoMetadata(homeMetada, {
+      title: homeMetada.title,
+      description: homeMetada.description,
+    }),
   };
 }
 

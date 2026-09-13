@@ -1,4 +1,5 @@
 import type { LayoutData } from "@/app/types"
+import { mediaUrl, siteUrl } from "@/lib/metadata"
 
 type JsonValue =
   | string
@@ -32,20 +33,14 @@ export function JsonLd({ data }: { data: JsonValue }) {
       type="application/ld+json"
       suppressHydrationWarning
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify(stripUndefined(data)),
+        __html: JSON.stringify(stripUndefined(data)).replace(/</g, "\\u003c"),
       }}
     />
   )
 }
 
-export function siteUrl(path = "/") {
-  const base = process.env.NEXT_PUBLIC_DOMAIN_URL || ""
-  if (path === "/") return base
-  return `${base}${path.startsWith("/") ? path : `/${path}`}`
-}
-
 export function localBusinessJsonLd(layout: LayoutData | null) {
-  const logo = layout?.logo?.url
+  const logo = mediaUrl(layout?.logo?.url)
 
   return {
     "@context": "https://schema.org",

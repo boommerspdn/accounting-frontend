@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next"
 
 import { fetchLayoutData } from "@/lib/data"
-import { siteUrl } from "@/lib/structured-data"
+import { siteUrl } from "@/lib/metadata"
 
 export const dynamic = "force-static"
 

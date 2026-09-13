@@ -1,6 +1,7 @@
 import Header from "@/components/header";
 import RichText from "@/components/rich-text";
 import { fetchAboutData, fetchAboutMetadata } from "@/lib/data";
+import { seoMetadata } from "@/lib/metadata";
 import { getImageSrc } from "@/lib/utils";
 import { Metadata } from "next";
 
@@ -8,9 +9,14 @@ export async function generateMetadata(): Promise<Metadata> {
   const seo = await fetchAboutMetadata();
 
   return {
-    title: seo.title,
-    description: seo.description,
-    alternates: { canonical: "/about-us/" },
+    ...seoMetadata(
+      seo,
+      {
+        title: seo.title,
+        description: seo.description,
+      },
+      { path: "/about-us" }
+    ),
   };
 }
 

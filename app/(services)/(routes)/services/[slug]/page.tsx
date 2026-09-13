@@ -1,4 +1,4 @@
-import { Metadata, ResolvingMetadata } from "next";
+import { Metadata } from "next";
 
 import Header from "@/components/header";
 import RichText from "@/components/rich-text";
@@ -7,27 +7,31 @@ import {
   fetchServiceBySlug,
   fetchServiceMetadata,
 } from "@/lib/data";
+import { seoMetadata } from "@/lib/metadata";
 import ServiceNotFound from "./components/service-not-found";
 import ServicesList from "./components/services-list";
 
 type Props = {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 };
 
 export const dynamicParams = false;
 
 export async function generateMetadata(
   { params }: Props,
-  parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const seo = await fetchServiceMetadata(params.slug);
+  const { slug } = await params;
+  const seo = await fetchServiceMetadata(slug);
 
   return {
-    title: seo.title,
-    description: seo.description,
-    alternates: {
-      canonical: `/services/${params.slug}/`,
-    },
+    ...seoMetadata(
+      seo,
+      {
+        title: seo.title,
+        description: seo.description,
+      },
+      { path: `/services/${slug}` }
+    ),
   };
 }
 
@@ -40,8 +44,9 @@ export async function generateStaticParams() {
   }));
 }
 
-const ServicePage = async ({ params }: { params: { slug: string } }) => {
-  const serviceData = await fetchServiceBySlug(params.slug);
+const ServicePage = async ({ params }: Props) => {
+  const { slug } = await params;
+  const serviceData = await fetchServiceBySlug(slug);
 
   if (!serviceData) {
     return <ServiceNotFound />;
@@ -52,7 +57,7 @@ const ServicePage = async ({ params }: { params: { slug: string } }) => {
       <Header title={serviceData.name} />
       <div className="container relative flex flex-row gap-2">
         <div className="sticky top-[80px] hidden h-full w-[280px] text-xl md:flex md:shrink-0 md:flex-col md:gap-3">
-          <ServicesList slug={params.slug} />
+          <ServicesList slug={slug} />
         </div>
 
         <div className="grid grid-cols-5 gap-y-8 gap-x-16 w-full">
