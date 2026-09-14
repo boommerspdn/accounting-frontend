@@ -4,6 +4,11 @@ import { cache } from "react";
 import { NameSlug, LayoutData, HomePageData } from "../app/types";
 
 const strapiCache = process.env.NODE_ENV === "development" ? "no-store" : "force-cache";
+const cmsApiPrefix = process.env.NEXT_PUBLIC_CMS_API_PREFIX ?? "/api";
+
+function cmsUrl(path: string, baseUrl: string) {
+  return new URL(`${cmsApiPrefix}${path}`, baseUrl);
+}
 
 export const fetchLayoutData = cache(async (): Promise<LayoutData> => {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
@@ -21,7 +26,7 @@ export const fetchLayoutData = cache(async (): Promise<LayoutData> => {
     },
     { encodeValuesOnly: true },
   );
-  const layoutUrl = new URL(`/api/fastontime-layout?${layoutQuery}`, baseUrl);
+  const layoutUrl = cmsUrl(`/fastontime-layout?${layoutQuery}`, baseUrl);
 
   const layoutRes = await fetch(layoutUrl, {
     headers: {
@@ -41,7 +46,7 @@ export const fetchLayoutData = cache(async (): Promise<LayoutData> => {
     { encodeValuesOnly: true },
   );
   const servicesUrl = new URL(
-    `/api/fastontime-services?${servicesQuery}`,
+    `${cmsApiPrefix}/fastontime-services?${servicesQuery}`,
     baseUrl,
   );
 
@@ -97,7 +102,7 @@ export const fetchHomeData = cache(async (): Promise<HomePageData> => {
     },
     { encodeValuesOnly: true },
   );
-  const homeUrl = new URL(`/api/fastontime-home-page?${homeQuery}`, baseUrl);
+  const homeUrl = cmsUrl(`/fastontime-home-page?${homeQuery}`, baseUrl);
 
   const homeRes = await fetch(homeUrl, {
     headers: {
@@ -117,7 +122,7 @@ export const fetchHomeData = cache(async (): Promise<HomePageData> => {
     { encodeValuesOnly: true },
   );
   const servicesUrl = new URL(
-    `/api/fastontime-services?${servicesQuery}`,
+    `${cmsApiPrefix}/fastontime-services?${servicesQuery}`,
     baseUrl,
   );
 
@@ -154,7 +159,7 @@ export const fetchServiceBySlug = cache(async (slug: string) => {
     { encodeValuesOnly: true },
   );
 
-  const url = new URL(`/api/fastontime-services?${query}`, baseUrl);
+  const url = cmsUrl(`/fastontime-services?${query}`, baseUrl);
 
   const res = await fetch(url, {
     headers: {
@@ -182,7 +187,7 @@ export const fetchAboutData = cache(async () => {
     },
     { encodeValuesOnly: true },
   );
-  const aboutUrl = new URL(`/api/fastontime-about-page?${aboutQuery}`, baseUrl);
+  const aboutUrl = cmsUrl(`/fastontime-about-page?${aboutQuery}`, baseUrl);
 
   const aboutRes = await fetch(aboutUrl, {
     headers: {
@@ -202,7 +207,7 @@ export const fetchAboutData = cache(async () => {
 export const fetchContactData = cache(async () => {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
 
-  const contactUrl = new URL(`/api/fastontime-contact-page`, baseUrl);
+  const contactUrl = cmsUrl(`/fastontime-contact-page`, baseUrl);
 
   const contactRes = await fetch(contactUrl, {
     headers: {
@@ -232,7 +237,7 @@ export const fetchHomeMetadata = cache(
       { encodeValuesOnly: true },
     );
 
-    const url = new URL(`/api/fastontime-home-page?${query}`, baseUrl);
+    const url = cmsUrl(`/fastontime-home-page?${query}`, baseUrl);
 
     const res = await fetch(url, {
       headers: {
@@ -263,7 +268,7 @@ export const fetchAboutMetadata = cache(
       { encodeValuesOnly: true },
     );
 
-    const url = new URL(`/api/fastontime-about-page?${query}`, baseUrl);
+    const url = cmsUrl(`/fastontime-about-page?${query}`, baseUrl);
 
     const res = await fetch(url, {
       headers: {
@@ -294,7 +299,7 @@ export const fetchContactMetadata = cache(
       { encodeValuesOnly: true },
     );
 
-    const url = new URL(`/api/fastontime-contact-page?${query}`, baseUrl);
+    const url = cmsUrl(`/fastontime-contact-page?${query}`, baseUrl);
 
     const res = await fetch(url, {
       headers: {
@@ -328,7 +333,7 @@ export const fetchServiceMetadata = cache(
       { encodeValuesOnly: true },
     );
 
-    const url = new URL(`/api/fastontime-services?${query}`, baseUrl);
+    const url = cmsUrl(`/fastontime-services?${query}`, baseUrl);
 
     const res = await fetch(url, {
       headers: {
