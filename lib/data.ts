@@ -3,8 +3,12 @@ import qs from "qs";
 import { cache } from "react";
 import { NameSlug, LayoutData, HomePageData } from "../app/types";
 
-const strapiCache = process.env.NODE_ENV === "development" ? "no-store" : "force-cache";
+// Next fetches these during static export. Avoid force-cache so a new build reads
+// current CMS blocks instead of reusing JSON from a previous build.
 const cmsApiPrefix = process.env.NEXT_PUBLIC_CMS_API_PREFIX ?? "/api";
+const cmsHeaders: Record<string, string> = process.env.NEXT_PUBLIC_API_TOKEN
+  ? { Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}` }
+  : {};
 
 function cmsUrl(path: string, baseUrl: string) {
   return new URL(`${cmsApiPrefix}${path}`, baseUrl);
@@ -12,7 +16,6 @@ function cmsUrl(path: string, baseUrl: string) {
 
 export const fetchLayoutData = cache(async (): Promise<LayoutData> => {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
-
   const layoutQuery = qs.stringify(
     {
       populate: {
@@ -30,9 +33,8 @@ export const fetchLayoutData = cache(async (): Promise<LayoutData> => {
 
   const layoutRes = await fetch(layoutUrl, {
     headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+      ...cmsHeaders,
     },
-    cache: strapiCache,
   });
 
   if (!layoutRes.ok) {
@@ -52,9 +54,8 @@ export const fetchLayoutData = cache(async (): Promise<LayoutData> => {
 
   const servicesRes = await fetch(servicesUrl, {
     headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+      ...cmsHeaders,
     },
-    cache: strapiCache,
   });
 
   if (!servicesRes.ok) {
@@ -91,7 +92,6 @@ export const fetchLayoutData = cache(async (): Promise<LayoutData> => {
 
 export const fetchHomeData = cache(async (): Promise<HomePageData> => {
   const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:1337";
-
   const homeQuery = qs.stringify(
     {
       populate: {
@@ -106,9 +106,8 @@ export const fetchHomeData = cache(async (): Promise<HomePageData> => {
 
   const homeRes = await fetch(homeUrl, {
     headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+      ...cmsHeaders,
     },
-    cache: strapiCache,
   });
 
   if (!homeRes.ok) {
@@ -128,9 +127,8 @@ export const fetchHomeData = cache(async (): Promise<HomePageData> => {
 
   const servicesRes = await fetch(servicesUrl, {
     headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+      ...cmsHeaders,
     },
-    cache: strapiCache,
   });
 
   if (!servicesRes.ok) {
@@ -163,9 +161,8 @@ export const fetchServiceBySlug = cache(async (slug: string) => {
 
   const res = await fetch(url, {
     headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+      ...cmsHeaders,
     },
-    cache: strapiCache,
   });
 
   if (!res.ok) {
@@ -191,9 +188,8 @@ export const fetchAboutData = cache(async () => {
 
   const aboutRes = await fetch(aboutUrl, {
     headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+      ...cmsHeaders,
     },
-    cache: strapiCache,
   });
 
   if (!aboutRes.ok) {
@@ -211,9 +207,8 @@ export const fetchContactData = cache(async () => {
 
   const contactRes = await fetch(contactUrl, {
     headers: {
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+      ...cmsHeaders,
     },
-    cache: strapiCache,
   });
 
   if (!contactRes.ok) {
@@ -241,9 +236,8 @@ export const fetchHomeMetadata = cache(
 
     const res = await fetch(url, {
       headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+        ...cmsHeaders,
       },
-      cache: strapiCache,
     });
 
     if (!res.ok) {
@@ -272,9 +266,8 @@ export const fetchAboutMetadata = cache(
 
     const res = await fetch(url, {
       headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+        ...cmsHeaders,
       },
-      cache: strapiCache,
     });
 
     if (!res.ok) {
@@ -303,9 +296,8 @@ export const fetchContactMetadata = cache(
 
     const res = await fetch(url, {
       headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+        ...cmsHeaders,
       },
-      cache: strapiCache,
     });
 
     if (!res.ok) {
@@ -337,9 +329,8 @@ export const fetchServiceMetadata = cache(
 
     const res = await fetch(url, {
       headers: {
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_TOKEN}`,
+        ...cmsHeaders,
       },
-      cache: strapiCache,
     });
 
     if (!res.ok) {

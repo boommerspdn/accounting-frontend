@@ -41,3 +41,5 @@ CLAUDE.md
 next-env.d.ts
 
 API_ENDPOINTS.md
+# Local browser verification artifacts
+.playwright-cli/

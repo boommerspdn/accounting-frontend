@@ -3,7 +3,7 @@ import { getImageSrc } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 
-const Footer = async ({
+const Footer = ({
   logo,
   company_name,
   company_address,

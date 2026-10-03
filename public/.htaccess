@@ -1,0 +1,19 @@
+Options -MultiViews
+DirectoryIndex index.html
+RewriteEngine On
+RewriteBase /
+ErrorDocument 404 /404/
+
+# Serve exported assets, including Next.js link-prefetch payloads, as files.
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^ - [L]
+
+# Next.js uses trailing slashes for exported page routes.
+RewriteCond %{REQUEST_URI} !/$
+RewriteRule ^(.+)$ $1/ [R=301,L]
+
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteCond %{REQUEST_FILENAME}/index.html -f
+RewriteRule ^(.+)$ $1/index.html [L]
+
+AddType application/xml .xml

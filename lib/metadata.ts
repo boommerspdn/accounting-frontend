@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getImageSrc } from "@/lib/utils";
 
 export const SITE_NAME = "Fast on Time Accounting";
 export const DEFAULT_SITE_DESCRIPTION =
@@ -28,12 +29,13 @@ export function siteUrl(path = "/") {
 
 export function mediaUrl(url?: string | null) {
   if (!url) return null;
-  if (url.startsWith("http")) return url;
+  const resolved = getImageSrc(url);
+  if (resolved.startsWith("http")) return resolved;
 
   const apiUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
-  if (url.startsWith("/uploads/") && apiUrl) return `${apiUrl}${url}`;
+  if (resolved.startsWith("/uploads/") && apiUrl) return `${apiUrl}${resolved}`;
 
-  return siteUrl(url);
+  return siteUrl(resolved);
 }
 
 export function seoMetadata(

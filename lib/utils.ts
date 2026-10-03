@@ -48,9 +48,16 @@ export function flattenAttributes(data: any): any {
 
 export function getImageSrc(url: string | undefined): string {
   if (!url) return "";
-  const apiUrl =
-    process.env.NEXT_PUBLIC_API_URL === "http://localhost:1337"
-      ? `${process.env.NEXT_PUBLIC_API_URL}${url}`
-      : url;
-  return apiUrl;
+  const cmsUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
+  if (!cmsUrl) return url;
+  if (url.startsWith("/uploads/")) return `${cmsUrl}${url}`;
+  try {
+    const parsed = new URL(url);
+    if (parsed.pathname.startsWith("/uploads/") && ["localhost", "127.0.0.1"].includes(parsed.hostname)) {
+      return `${cmsUrl}${parsed.pathname}${parsed.search}`;
+    }
+  } catch {
+    // Keep non-URL values unchanged.
+  }
+  return url;
 }
